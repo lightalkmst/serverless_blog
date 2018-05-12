@@ -1,0 +1,74 @@
+
+
+
+
+
+
+
+
+set up db
+design db schema
+
+
+postgresql
+
+Table: User
+  id PRIMARY KEY INTEGER,
+  username TEXT,
+  passhash TEXT,
+  email TEXT,
+
+Table: Posts
+  id PRIMARY KEY INTEGER,
+  user_id FOREIGN KEY INTEGER,
+  title TEXT,
+  post TEXT,
+  summary TEXT,
+  timestamp TIMESTAMPTZ,
+  tags TEXT,
+
+Table: Comments
+  id INTEGER,
+  user_id FOREIGN KEY INTEGER,
+  replied_comment_id INTEGER,
+  comment TEXT,
+  timestamp TIMESTAMPTZ,
+
+Table: Messages
+  id INTEGER,
+  user_from_id FOREIGN KEY INTEGER,
+  user_to_id FOREIGN KEY INTEGER,
+  message TEXT,
+  timestamp TIMESTAMPTZ,
+
+
+authentication and security needs to be done in each relevant Lambda
+
+features to have (TODO: order of importance):
+  necessary:
+    view
+    navigation
+    posts
+      search
+    archive
+    excerpts/summaries
+    blog tags
+    formatting
+    comments
+      https://en.wikipedia.org/wiki/Nofollow
+      lazy loaded
+        mouseover event on element after blog post?
+      search
+      folding
+    email subscription
+    login/authentication
+    user profile
+      username
+      password
+      email
+  additional:
+    direct messaging to us
+    meta description
+      site description for google
+    responsive design
+      mobile-friendly

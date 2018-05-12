@@ -1,0 +1,137 @@
+:root {
+  --gray1: #222222;
+  --gray2: #333333;
+  --gray3: #888888;
+
+  --nav_bar_height: 40px;
+}
+
+/* * {
+  height: 100%;
+  width: 100%;
+} */
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--gray2);
+  color: var(--gray3);
+}
+
+.full {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+tr {
+  height: auto;
+}
+
+td {
+  height: auto;
+  vertical-align: top;
+}
+
+input {
+  height: 24px;
+  width: auto;
+  background-color: var(--gray1);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  padding-left: 10px;
+}
+
+button {
+  height: 24px;
+  width: auto;
+  background-color: var(--gray1);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+}
+
+/* navigation bar */
+
+.nav_bar {
+  height: var(--nav_bar_height);
+}
+
+.nav_bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--gray1);
+}
+
+.nav_bar li {
+  float: left;
+  display: block;
+  height: calc(var(--nav_bar_height) - 16px);
+  width: 120px;
+  color: white;
+  text-align: center;
+  padding: 8px 16px;
+  text-decoration: none;
+  text-transform: capitalize;
+  background: var(--gray1);
+}
+
+.nav_bar li:hover {
+  background: radial-gradient(
+    var(--gray2) 25%,
+    var(--gray1) 65%
+  );
+  cursor: pointer;
+}
+
+/* panel */
+
+.panel {
+  height: auto;
+  width: 100%;
+  color: var(--gray3);
+}
+
+.panel * :not(input, button) {
+  height: auto;
+  width: auto;
+}
+
+.panel * {
+  transition: color .3s linear;
+}
+
+.panel :hover {
+  color: white;
+}
+
+.panel > div {
+  border: 2px solid var(--gray1);
+  border-radius: 8px;
+}
+
+.panel .title {
+  background-color: var(--gray1);
+  text-align: center;
+}
+
+.panel h1 {
+  background: var(--gray1);
+  margin: 0px;
+}
+
+.panel .subject {
+  margin: 6px;
+}
