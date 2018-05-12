@@ -84,9 +84,9 @@ var serve_static_file = web_path => file_path => type => {
 }
 
 A.iter (([web_path, file_path, type]) => serve_static_file (web_path) (file_path) (type)) ([
-  ['bundle.js', 'build/bundle.js', 'js'],
-  ['favicon.ico', 'build/favicon.ico', 'html'],
-  ['', 'build/index.html', 'html'],
+  ['bundle.js', 'build/client/bundle.js', 'js'],
+  ['favicon.ico', 'build/client/favicon.png', 'html'],
+  ['', 'build/client/index.html', 'html'],
 ])
 
 // var does_not_exist = (() => {

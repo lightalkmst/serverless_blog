@@ -11,10 +11,10 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 // Paths to be used for webpack configuration
 const paths = {
-  appSrc: path.join(process.cwd(), 'client'),
-  appIndex: path.join(process.cwd(), 'client', 'index.js'),
-  appBuild: path.join(process.cwd(), 'build'),
-  public: '/'
+  appSrc: path.join(process.cwd(), 'client', 'src'),
+  appIndex: path.join(process.cwd(), 'client', 'src', 'index.js'),
+  appBuild: path.join(process.cwd(), 'build', 'client'),
+  public: path.join(process.cwd(), 'client'),
 }
 
 module.exports = {
@@ -79,9 +79,9 @@ module.exports = {
   plugins: [
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
+      template: 'client/public/index.html',
       inject: true,
-      favicon: 'public/favicon.png',
+      favicon: 'client/public/favicon.png',
       hash: true
     }),
     // Makes environment variables available to the JS code, fallback to 'production'

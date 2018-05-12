@@ -6,6 +6,7 @@
     "babel-cli": "*",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-minify": "^0.4.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.0",
@@ -24,20 +25,18 @@
     "webpack-dev-server": "^2.9.1",
     "express": "^4.14.0",
     "request": "^2.72.0",
-    "helmet": "^2.1.2"
-  },
-  "dependencies": {
-    "@cycle/dom": "18.3.0",
-    "@cycle/run": "3.3.0",
-    "@cycle/http": "14.9.0",
-    "xstream": "11.0.0",
+    "helmet": "^2.1.2",
     "body-parser": "^1.15.2",
     "pg": "^7.4.3",
+    "archiver": "^2.1.1",
     "green_curry": "*"
+  },
+  "dependencies": {
   },
   "scripts": {
     "start": "npm run build && node server/app.js",
     "test": "npm run build && node scripts/test.js",
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js && node scripts/build_lambdas.js",
+    "inst-rec": "npm install && cd client && npm install && cd../serverless && npm install"
   }
 }
