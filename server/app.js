@@ -61,16 +61,52 @@ var [get, post, put, del, all] = A.map (rest) (['get', 'post', 'put', 'delete', 
 //          //
 //////////////
 
-// require, wrap, and subscribe apis from ../serverless
-// exports.handler = (event, context, callback) => {
-//     // Succeed with the string "Hello world!"
-//     callback(null, 'Hello world!')
-// }
 
-// TODO
-// var [api_get, api_post, api_put, api_del, api_all] = A.map (f => path => api => f (path) (api)) ([get, post, put, del, all])
+// Table: User
+//   id PRIMARY KEY INTEGER,
+//   username TEXT,
+//   passhash TEXT,
+//   email TEXT,
+//
+// Table: Posts
+//   id PRIMARY KEY INTEGER,
+//   user_id FOREIGN KEY INTEGER,
+//   title TEXT,
+//   post TEXT,
+//   summary TEXT,
+//   timestamp TIMESTAMPTZ,
+//   tags TEXT,
+//
+// Table: Comments
+//   id INTEGER,
+//   user_id FOREIGN KEY INTEGER,
+//   replied_comment_id INTEGER,
+//   comment TEXT,
+//   timestamp TIMESTAMPTZ,
+//
+// Table: Messages
+//   id INTEGER,
+//   user_from_id FOREIGN KEY INTEGER,
+//   user_to_id FOREIGN KEY INTEGER,
+//   message TEXT,
+//   timestamp TIMESTAMPTZ,
+var users_id = 1
+var posts_id = 1
+var comments_id = 1
+var messages_id = 1
+var db = {
+  users: [],
+  posts: [],
+  comments: [],
+  messages: [],
+}
 
-// api_get ()
+// get_posts
+get ('posts') ((req, res) => {
+  res.json ([])
+    .end ()
+})
+
 
 //////////////////
 //              //

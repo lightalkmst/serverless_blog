@@ -72,3 +72,4 @@ features to have (TODO: order of importance):
       site description for google
     responsive design
       mobile-friendly
+    related links

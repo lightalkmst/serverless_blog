@@ -92,7 +92,8 @@ module.exports = {
     new webpack.ProvidePlugin({
       Snabbdom: 'snabbdom-pragma'
     }),
-    new UglifyJSPlugin(),
+    // TODO: uncomment for prod; configure for dev/prod builds
+    // new UglifyJSPlugin(),
   ],
   devtool: 'cheap-module-source-map'
 }

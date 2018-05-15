@@ -3,29 +3,30 @@
   --gray2: #333333;
   --gray3: #888888;
 
+  --nav_bar_bg: #3333aa;
+
   --nav_bar_height: 40px;
+  --nav_bar_width: 180px;
 }
 
-/* * {
-  height: 100%;
-  width: 100%;
-} */
+* {
+  margin: 0;
+  padding: 0;
+}
 
 html, body {
   height: 100%;
   width: 100%;
-  margin: 0;
-  padding: 0;
   background: var(--gray2);
   color: var(--gray3);
 }
 
-.full {
+/* body div, .full {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-}
+} */
 
 table {
   height: auto;
@@ -64,28 +65,37 @@ button {
 /* navigation bar */
 
 .nav_bar {
-  height: var(--nav_bar_height);
+  height: 100%;
+  width: var(--nav_bar_width);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  /* background-color: var(--nav_bar_bg); */
+  float: left;
 }
 
 .nav_bar ul {
+  height: 100%;
+  width: 100%;
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: var(--gray1);
+  background-color: var(--nav_bar_bg);
 }
 
 .nav_bar li {
   float: left;
-  display: block;
-  height: calc(var(--nav_bar_height) - 16px);
-  width: 120px;
+  clear: left;
+  /* display: block; */
+  height: 24px;
+  width: var(--nav_bar_width);
   color: white;
   text-align: center;
   padding: 8px 16px;
   text-decoration: none;
   text-transform: capitalize;
-  background: var(--gray1);
+  /* background: var(--gray1); */
 }
 
 .nav_bar li:hover {
@@ -96,9 +106,21 @@ button {
   cursor: pointer;
 }
 
+.logo {
+  height: var(--nav_bar_width);
+  width: var(--nav_bar_width);
+}
+
+/* content */
+.content {
+  height: 100%;
+  width: calc(100% - var(--nav_bar_width));
+  float: right;
+}
+
 /* panel */
 
-.panel {
+/* .panel {
   height: auto;
   width: 100%;
   color: var(--gray3);
@@ -134,4 +156,4 @@ button {
 
 .panel .subject {
   margin: 6px;
-}
+} */

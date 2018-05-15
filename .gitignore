@@ -46,3 +46,5 @@ jspm_packages
 *.tgz
 
 build
+
+serverless/src/common/db_config.js
