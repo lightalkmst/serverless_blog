@@ -1,6 +1,6 @@
 import xs from 'xstream'
 
-import init from '../init'
+import init from '../../init'
 
 import dev_blog_post from './dev_blog_post'
 
@@ -20,6 +20,12 @@ export default sources => {
       xs.of (dev_blog_post)
         .map (post =>
           <div className='post'>
+            {
+              F.p (post) (
+                S.split ('(\r|)\n')
+                >> A.fold ()
+              )
+            }
             {post}
           </div>
       )

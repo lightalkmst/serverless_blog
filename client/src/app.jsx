@@ -2,8 +2,9 @@ import xs from 'xstream'
 
 import init from './init'
 
-import nav_bar from './app/nav_bar'
-import blog_post from './app/blog_post'
+import nav_bar from './app/nav_bar/nav_bar'
+import header from './app/header/header'
+import blog_post from './app/post/blog_post'
 
 // import service_browser from './app/service_browser'
 // import feature_browser from './app/feature_browser'
@@ -21,6 +22,11 @@ export default sources => {
     nav_state$,
   } = nav_bar (sources)
 
+  // TODO: search bar
+  const {
+    DOM: header_dom$,
+  } = header (sources)
+
   const {
     DOM: blog_post_dom$,
   } = blog_post (sources)
@@ -30,11 +36,13 @@ export default sources => {
       xs.combine (...[
         nav_bar_dom$,
         nav_state$,
+        header_dom$,
         blog_post_dom$,
       ])
         .map (([
           nav_bar_dom,
           nav_state,
+          header_dom,
           blog_post_dom,
         ]) => {
           // var selected_tab_dom = {
@@ -45,7 +53,8 @@ export default sources => {
           return (
             <div>
               {nav_bar_dom}
-              <div className='content'>
+              <div className='main'>
+                {header_dom}
                 {selected_tab_dom}
               </div>
             </div>

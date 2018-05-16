@@ -3,10 +3,7 @@
   --gray2: #333333;
   --gray3: #888888;
 
-  --nav_bar_bg: #3333aa;
-
-  --nav_bar_height: 40px;
-  --nav_bar_width: 240px;
+  --main_width: calc(100% - var(--nav_bar_width));
 }
 
 * {
@@ -63,65 +60,9 @@ button {
   border-radius: 8px;
 }
 
-/* navigation bar */
-
-.nav_bar_placeholder {
+.main {
   height: 100%;
-  width: var(--nav_bar_width);
-  float: left;
-}
-
-.nav_bar {
-  height: 100%;
-  width: var(--nav_bar_width);
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  background-color: var(--nav_bar_bg);
-  float: left;
-}
-
-.nav_bar ul {
-  height: 100%;
-  width: 100%;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.nav_bar li {
-  float: left;
-  clear: left;
-  /* display: block; */
-  height: 24px;
-  width: var(--nav_bar_width);
-  color: white;
-  text-align: center;
-  padding: 8px 16px;
-  text-decoration: none;
-  text-transform: capitalize;
-  /* background: var(--gray1); */
-}
-
-.nav_bar li:hover {
-  background: radial-gradient(
-    var(--gray2) 25%,
-    var(--gray1) 65%
-  );
-  cursor: pointer;
-}
-
-.logo {
-  height: var(--nav_bar_width);
-  width: var(--nav_bar_width);
-  display: inline;
-}
-
-/* content */
-.content {
-  height: 100%;
-  width: calc(100% - var(--nav_bar_width));
+  width: var(--main_width);
   float: left;
 }
 

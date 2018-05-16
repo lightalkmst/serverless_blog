@@ -1,0 +1,21 @@
+:root {
+  --header_bg: #3333aa;
+
+  --header_height: 80px;
+  --header_width: var(--main_width);
+}
+
+.header_placeholder {
+  height: var(--header_height);
+  width: 100%;
+  float: left;
+}
+
+.header {
+  height: var(--header_height);
+  width: var(--header_width);
+  position: fixed;
+  top: 0px;
+  background-color: var(--header_bg);
+  float: left;
+}

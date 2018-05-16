@@ -26,6 +26,7 @@ Table: Posts
   summary TEXT,
   timestamp TIMESTAMPTZ,
   tags TEXT,
+  published BOOLEAN,
 
 Table: Comments
   id INTEGER,

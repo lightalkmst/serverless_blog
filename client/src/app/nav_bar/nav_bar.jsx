@@ -1,6 +1,6 @@
 import xs from 'xstream'
 
-import init from '../init'
+import init from '../../init'
 
 import blog_logo from './blog_logo'
 
@@ -25,6 +25,7 @@ export default sources => {
           nav_state,
           blog_logo_dom,
         ]) => [
+          // this array form is an exception for spacing
           // force the empty div to take space
           <div className='nav_bar_placeholder'>{'\u00A0'}</div>,
           <div className='nav_bar'>
@@ -32,11 +33,12 @@ export default sources => {
               {blog_logo_dom}
             </div>
             <ul>
-              <li id='service_browser_tab'>Browse Services</li>
-              <li id='feature_browser_tab'>Browse Feature</li>
-              <li id='service_adder_tab'>Add Service</li>
-              <li id='feature_adder_tab'>Add Feature</li>
-              <li id='feature_tagger_tab'>Mark Dependency</li>
+              <li id='_tab'>Home</li>
+              <li id='_tab'>Archive</li>
+              <li id='_tab'>About</li>
+              <li id='_tab'>Login</li>
+              <li id='_tab'>Profile</li>
+              <li id='_tab'>Logout</li>
             </ul>
           </div>
       ])
