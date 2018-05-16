@@ -24,7 +24,9 @@ export default sources => {
         .map (([
           nav_state,
           blog_logo_dom,
-        ]) =>
+        ]) => [
+          // force the empty div to take space
+          <div className='nav_bar_placeholder'>{'\u00A0'}</div>,
           <div className='nav_bar'>
             <div id='logo_tab' className='logo'>
               {blog_logo_dom}
@@ -37,7 +39,7 @@ export default sources => {
               <li id='feature_tagger_tab'>Mark Dependency</li>
             </ul>
           </div>
-      )
+      ])
     ),
     nav_state$,
   }

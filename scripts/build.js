@@ -39,8 +39,8 @@ const chalk = require('chalk')
 const webpack = require('webpack')
 const path = require('path')
 
-const buildPath = path.join(process.cwd(), 'build')
-const publicPath = path.join(process.cwd(), 'public')
+const buildPath = path.join(process.cwd(), 'build', 'client')
+const publicPath = path.join(process.cwd(), 'client', 'public')
 const notEjected = require(path.join(process.cwd(), 'package.json')).cca
 
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter')

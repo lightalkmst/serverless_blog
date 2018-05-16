@@ -42,8 +42,6 @@ export default sources => {
 
           var selected_tab_dom = blog_post_dom
 
-          F.log (blog_post_dom)
-
           return (
             <div>
               {nav_bar_dom}

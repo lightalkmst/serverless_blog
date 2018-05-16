@@ -6,12 +6,13 @@
   --nav_bar_bg: #3333aa;
 
   --nav_bar_height: 40px;
-  --nav_bar_width: 180px;
+  --nav_bar_width: 240px;
 }
 
 * {
   margin: 0;
   padding: 0;
+  font-size: 16px;
 }
 
 html, body {
@@ -64,13 +65,19 @@ button {
 
 /* navigation bar */
 
+.nav_bar_placeholder {
+  height: 100%;
+  width: var(--nav_bar_width);
+  float: left;
+}
+
 .nav_bar {
   height: 100%;
   width: var(--nav_bar_width);
   position: fixed;
   top: 0px;
   left: 0px;
-  /* background-color: var(--nav_bar_bg); */
+  background-color: var(--nav_bar_bg);
   float: left;
 }
 
@@ -81,7 +88,6 @@ button {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: var(--nav_bar_bg);
 }
 
 .nav_bar li {
@@ -109,13 +115,18 @@ button {
 .logo {
   height: var(--nav_bar_width);
   width: var(--nav_bar_width);
+  display: inline;
 }
 
 /* content */
 .content {
   height: 100%;
   width: calc(100% - var(--nav_bar_width));
-  float: right;
+  float: left;
+}
+
+.post {
+  font-size: 18px;
 }
 
 /* panel */

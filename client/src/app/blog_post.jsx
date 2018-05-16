@@ -19,7 +19,7 @@ export default sources => {
         // })
       xs.of (dev_blog_post)
         .map (post =>
-          <div>
+          <div className='post'>
             {post}
           </div>
       )

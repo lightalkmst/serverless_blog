@@ -114,14 +114,13 @@ get ('posts') ((req, res) => {
 //              //
 //////////////////
 
-var serve_static_file = web_path => file_path => type => {
-  var file = fs.readFileSync (file_path)
-  get (web_path) ((req, res) => write (res) (200, type, file))
-}
+var serve_static_file = web_path => file_path => type => get (web_path) ((req, res) => write (res) (200, type, fs.readFileSync (file_path)))
 
 A.iter (([web_path, file_path, type]) => serve_static_file (web_path) (file_path) (type)) ([
   ['bundle.js', 'build/client/bundle.js', 'js'],
   ['favicon.ico', 'build/client/favicon.png', 'html'],
+  ['catroomguardian.jpg', 'build/client/catroomguardian.jpg', 'plain'],
+  ['yxyha.jpg', 'build/client/yxyha.jpg', 'plain'],
   ['', 'build/client/index.html', 'html'],
 ])
 
@@ -134,6 +133,21 @@ A.iter (([web_path, file_path, type]) => serve_static_file (web_path) (file_path
 // }) ()
 
 // get ('*') (does_not_exist)
+
+///////////////////
+//               //
+// HOT RELOADING //
+//               //
+///////////////////
+
+var exec = require ('child_process').exec
+
+var stdin = process.openStdin ()
+
+stdin.addListener ('data', () => {
+  F.log ('rebuilding')
+  exec ('node scripts/build.js', () => F.log ('rebuilt'))
+})
 
 app.listen (cfg.port || 8080)
 F.log ('Server is ready')
