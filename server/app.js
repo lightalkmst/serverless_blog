@@ -134,20 +134,23 @@ A.iter (([web_path, file_path, type]) => serve_static_file (web_path) (file_path
 
 // get ('*') (does_not_exist)
 
-///////////////////
-//               //
-// HOT RELOADING //
-//               //
-///////////////////
+////////////////////
+//                //
+// SOFT RELOADING //
+//                //
+////////////////////
 
 var exec = require ('child_process').exec
 
 var stdin = process.openStdin ()
 
 stdin.addListener ('data', () => {
-  F.log ('rebuilding')
-  exec ('node scripts/build.js', () => F.log ('rebuilt'))
+  F.log ('Rebuilding the application')
+  exec ('node scripts/build.js', () => F.log ('Rebuilding is complete'))
 })
 
 app.listen (cfg.port || 8080)
-F.log ('Server is ready')
+A.iter (F.log) ([
+  'Server is ready',
+  'Hit Enter to rebuild at any time'
+])

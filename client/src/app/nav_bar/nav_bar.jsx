@@ -10,7 +10,7 @@ export default sources => {
   const nav_state$ =
     xs.merge (...A.map (x => DOM.select (`#${x}_tab`).events ('click').mapTo (x)) ([
     ]))
-      .startWith ('')
+      .startWith ('home')
 
   const {DOM: blog_logo_dom$} = blog_logo (sources)
 
@@ -33,7 +33,7 @@ export default sources => {
               {blog_logo_dom}
             </div>
             <ul>
-              <li id='_tab'>Home</li>
+              <li id='home_tab'>Home</li>
               <li id='_tab'>Archive</li>
               <li id='_tab'>About</li>
               <li id='_tab'>Login</li>

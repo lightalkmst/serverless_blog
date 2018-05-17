@@ -8,14 +8,14 @@ export default sources => {
   return {
     DOM: (
       xs.merge (...[
-        DOM.select ('.logo').events ('mouseenter').mapTo (false),
-        DOM.select ('.logo').events ('mouseleave').mapTo (true),
+        DOM.select ('#logo').events ('mouseenter').mapTo (false),
+        DOM.select ('#logo').events ('mouseleave').mapTo (true),
       ])
         .startWith (true)
         .map (hover =>
           hover
-          ? <img src='catroomguardian.jpg' className='logo' />
-          : <img src='yxyha.jpg' className='logo' />
+          ? <img id='logo' src='catroomguardian.jpg' className='logo' />
+          : <img id='logo' src='yxyha.jpg' className='logo' />
       )
     ),
   }

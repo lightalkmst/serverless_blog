@@ -1,4 +1,4 @@
-import init from '../init'
+import init from '../../init'
 
 // import cfg from '../../config'
 
@@ -20,6 +20,8 @@ const post = path => category => send => ({
 })
 
 export default {
+  get_posts: get ('') ('get_posts'),
+
   get_services: get ('') ('get_services'),
   get_features: get ('') ('get_features'),
   add_service: post ('') ('add_service'),

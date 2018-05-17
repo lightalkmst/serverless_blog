@@ -66,46 +66,20 @@ button {
   float: left;
 }
 
+.content {
+  clear: both;
+}
+
 .post {
   font-size: 18px;
 }
 
-/* panel */
 
-/* .panel {
-  height: auto;
-  width: 100%;
-  color: var(--gray3);
-}
 
-.panel * :not(input, button) {
-  height: auto;
-  width: auto;
-}
-
-.panel * {
+.text_hover {
   transition: color .3s linear;
 }
 
-.panel :hover {
+.text_hover:hover {
   color: white;
 }
-
-.panel > div {
-  border: 2px solid var(--gray1);
-  border-radius: 8px;
-}
-
-.panel .title {
-  background-color: var(--gray1);
-  text-align: center;
-}
-
-.panel h1 {
-  background: var(--gray1);
-  margin: 0px;
-}
-
-.panel .subject {
-  margin: 6px;
-} */

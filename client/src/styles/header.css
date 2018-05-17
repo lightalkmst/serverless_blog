@@ -18,4 +18,7 @@
   top: 0px;
   background-color: var(--header_bg);
   float: left;
+  font-size: 36px;
+  text-align: center;
+  line-height: var(--header_height);
 }

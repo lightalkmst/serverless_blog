@@ -1,0 +1,36 @@
+.panel {
+  color: var(--gray3);
+  padding: 24px;
+}
+
+.panel * :not(input, button) {
+  height: auto;
+  width: auto;
+}
+
+.panel * {
+  transition: color .3s linear;
+}
+
+.panel :hover {
+  color: white;
+}
+
+.panel > div {
+  border: 2px solid var(--gray1);
+  border-radius: 8px;
+}
+
+.panel .title {
+  background-color: var(--gray1);
+  text-align: center;
+}
+
+.panel h1 {
+  background: var(--gray1);
+  margin: 0px;
+}
+
+.panel .subject {
+  margin: 6px;
+}
