@@ -102,8 +102,8 @@ var db = {
   messages: [],
 }
 
-var blog_post = require ('./test_data/dev_blog_post')
-db.posts = A.map (i => D.extend (blog_post) ({
+var article = require ('./test_data/article')
+db.posts = A.map (i => D.extend (article) ({
   id: i,
   timestamp: new Date () + i,
 })) (A.range (1) (10))
@@ -114,10 +114,10 @@ get ('posts') ((req, res) => {
     F.p (db.posts) (
       // TODO: add user check if not published
       A.filter (post => post.published)
-      >> A.map (post => ({
+      >> A.mapi (i => post => ({
         id: post.id,
         user_id: post.user_id,
-        title: post.title,
+        title: `${post.title} ${i}`,
         summary: post.summary,
         timestamp: post.timestamp,
         tags: post.tags,

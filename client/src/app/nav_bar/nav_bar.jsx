@@ -41,6 +41,8 @@ export default sources => {
             <div id='logo_tab' className='logo'>
               {blog_logo_dom}
             </div>
+            {'\u00A0'}
+            <br />
             <ul>
               <li id='home_tab'>Home</li>
               <li id='archive_tab'>Archive</li>

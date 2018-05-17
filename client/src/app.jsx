@@ -5,7 +5,7 @@ import init from './init'
 import nav_bar from './app/nav_bar/nav_bar'
 import header from './app/header/header'
 import home from './app/home/home'
-import blog_post from './app/post/blog_post'
+import article from './app/article/article'
 
 export default sources => {
   const {DOM, HTTP} = sources
@@ -31,9 +31,9 @@ export default sources => {
   })
 
   const {
-    DOM: blog_post_dom$,
-    HTTP: blog_post_http$,
-  } = blog_post ({
+    DOM: article_dom$,
+    HTTP: article_http$,
+  } = article ({
     ...sources,
     post_id$,
   })
@@ -41,7 +41,7 @@ export default sources => {
   const page$ =
     xs.merge (...[
       navigation$,
-      post_select$.mapTo ('blog_post'),
+      post_select$,
     ])
 
   return {
@@ -51,21 +51,21 @@ export default sources => {
         nav_bar_dom$,
         header_dom$,
         home_dom$,
-        blog_post_dom$,
+        article_dom$,
       ])
         .map (([
           page,
           nav_bar_dom,
           header_dom,
           home_dom,
-          blog_post_dom,
+          article_dom,
         ]) => {
           var selected_tab_dom = {
             home_dom,
-            blog_post_dom,
+            article_dom,
           }[`${page}_dom`]
 
-          // var selected_tab_dom = blog_post_dom
+          // var selected_tab_dom = article_dom
 
           return (
             <div>
@@ -83,7 +83,7 @@ export default sources => {
     HTTP: (
       xs.merge (...[
         home_http$,
-        blog_post_http$,
+        article_http$,
       ])
     ),
   }

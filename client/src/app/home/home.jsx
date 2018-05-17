@@ -13,10 +13,6 @@ export default sources => {
     navigation$,
   } = sources
 
-  // get post summaries
-  // render summary panels
-  // send ids upstream for processing too
-
   var posts$ =
     HTTP.select ('get_posts').flatten ()
       .map (res => res.body)
@@ -59,6 +55,6 @@ export default sources => {
       ])
         .map (([i, posts]) => posts[i].id)
     ),
-    post_select$,
+    post_select$: post_select$.mapTo ('article'),
   }
 }
