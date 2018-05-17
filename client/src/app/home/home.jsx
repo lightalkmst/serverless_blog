@@ -32,13 +32,14 @@ export default sources => {
       posts$.map (posts => (
         <div className='home_grid'>
           {
-            A.mapi (i => panel =>
+            A.mapi (i => post =>
               <div id={`panel_${i}`} className='panel'>
                 <div>
                   <div className='title'>
-                    <h1>{panel.title}</h1>
+                    <h1>{post.title}</h1>
                   </div>
-                  <div className='summary'>{panel.summary}</div>
+                  <div className='tags'>{`Tags: ${post.tags}`}</div>
+                  <div className='summary'>{post.summary}</div>
                 </div>
               </div>
             ) (posts)

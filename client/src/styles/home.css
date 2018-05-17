@@ -42,3 +42,8 @@
 .panel .summary {
   margin: 6px;
 }
+
+.panel .tags {
+  margin: 6px;
+  font-size: 12px;
+}

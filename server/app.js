@@ -102,15 +102,10 @@ var db = {
   messages: [],
 }
 
-db.posts = A.map (i => ({
+var blog_post = require ('./test_data/dev_blog_post')
+db.posts = A.map (i => D.extend (blog_post) ({
   id: i,
-  user_id: 1,
-  title: `Title ${i}`,
-  summary: `Summary ${i}`,
   timestamp: new Date () + i,
-  tags: 'a, b, c',
-  published: true,
-  post: `Post ${i}`
 })) (A.range (1) (10))
 
 // get_posts
@@ -125,7 +120,7 @@ get ('posts') ((req, res) => {
         title: post.title,
         summary: post.summary,
         timestamp: post.timestamp,
-        tags: S.split (' ') (post.tags),
+        tags: post.tags,
       }))
     )
   )

@@ -3,7 +3,6 @@ import xs from 'xstream'
 import init from '../../init'
 
 import http_requests from '../common/http_requests'
-import dev_blog_post from './dev_blog_post'
 
 const post_to_dom = post => {
 
@@ -34,7 +33,6 @@ export default sources => {
     DOM: (
       HTTP.select ('get_post').flatten ()
         .map (res => res.body)
-        .startWith (dev_blog_post)
         .map (post => (
           <div className='post'>
             <div className='post_title text_hover'>
@@ -48,6 +46,7 @@ export default sources => {
             </div>
           </div>
       ))
+        .startWith (null)
     ),
     HTTP: post_id$.map (id => http_requests.get_post ({id}) ()),
   }
