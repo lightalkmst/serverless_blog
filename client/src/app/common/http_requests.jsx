@@ -20,7 +20,7 @@ const post = path => category => send => ({
 })
 
 export default {
-  get_posts: get ('') ('get_posts'),
+  get_posts: get ('posts') ('get_posts'),
 
   get_services: get ('') ('get_services'),
   get_features: get ('') ('get_features'),

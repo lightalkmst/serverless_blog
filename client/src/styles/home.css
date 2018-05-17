@@ -1,6 +1,14 @@
+.home_grid {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  justify-content: space-around;
+  grid-column-gap: 12px;
+  grid-row-gap: 12px;
+}
+
 .panel {
   color: var(--gray3);
-  padding: 24px;
 }
 
 .panel * :not(input, button) {
@@ -9,7 +17,7 @@
 }
 
 .panel * {
-  transition: color .3s linear;
+  transition: color .2s linear;
 }
 
 .panel :hover {
@@ -31,6 +39,6 @@
   margin: 0px;
 }
 
-.panel .subject {
+.panel .summary {
   margin: 6px;
 }

@@ -72,10 +72,11 @@ var [get, post, put, del, all] = A.map (rest) (['get', 'post', 'put', 'delete', 
 //   id PRIMARY KEY INTEGER,
 //   user_id FOREIGN KEY INTEGER,
 //   title TEXT,
-//   post TEXT,
 //   summary TEXT,
 //   timestamp TIMESTAMPTZ,
 //   tags TEXT,
+//   published BOOLEAN,
+//   post TEXT,
 //
 // Table: Comments
 //   id INTEGER,
@@ -101,9 +102,33 @@ var db = {
   messages: [],
 }
 
+db.posts = A.map (i => ({
+  id: i,
+  user_id: 1,
+  title: `Title ${i}`,
+  summary: `Summary ${i}`,
+  timestamp: new Date () + i,
+  tags: 'a, b, c',
+  published: true,
+  post: `Post ${i}`
+})) (A.range (1) (10))
+
 // get_posts
 get ('posts') ((req, res) => {
-  res.json ([])
+  res.json (
+    F.p (db.posts) (
+      // TODO: add user check if not published
+      A.filter (post => post.published)
+      >> A.map (post => ({
+        id: post.id,
+        user_id: post.user_id,
+        title: post.title,
+        summary: post.summary,
+        timestamp: post.timestamp,
+        tags: S.split (' ') (post.tags),
+      }))
+    )
+  )
     .end ()
 })
 
@@ -152,5 +177,5 @@ stdin.addListener ('data', () => {
 app.listen (cfg.port || 8080)
 A.iter (F.log) ([
   'Server is ready',
-  'Hit Enter to rebuild at any time'
+  'Enter to rebuild the client at any time; server changes require a restart'
 ])

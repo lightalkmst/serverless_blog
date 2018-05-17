@@ -7,14 +7,6 @@ import header from './app/header/header'
 import home from './app/home/home'
 import blog_post from './app/post/blog_post'
 
-// import service_browser from './app/service_browser'
-// import feature_browser from './app/feature_browser'
-// import service_adder from './app/service_adder'
-// import feature_adder from './app/feature_adder'
-// import feature_tagger from './app/feature_tagger'
-
-// tabbed selection of different views
-
 export default sources => {
   const {DOM, HTTP} = sources
 
@@ -31,6 +23,7 @@ export default sources => {
   const {
     DOM: home_dom$,
     HTTP: home_http$,
+    post_id_state$,
   } = home ({
     ...sources,
     nav_state$,
@@ -38,7 +31,10 @@ export default sources => {
 
   const {
     DOM: blog_post_dom$,
-  } = blog_post (sources)
+  } = blog_post ({
+    ...sources,
+    post_id_state$,
+  })
 
   return {
     DOM: (
@@ -78,11 +74,6 @@ export default sources => {
     ),
     HTTP: (
       xs.merge (...[
-        // service_browser_http$,
-        // feature_browser_http$,
-        // service_adder_http$,
-        // feature_adder_http$,
-        // feature_tagger_http$,
         home_http$,
       ])
     ),

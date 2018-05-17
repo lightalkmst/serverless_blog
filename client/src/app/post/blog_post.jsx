@@ -23,7 +23,11 @@ const post_to_dom = post => {
 }
 
 export default sources => {
-  const {DOM, HTTP} = sources
+  const {
+    DOM,
+    HTTP,
+    post_id_state$,
+  } = sources
 
   return {
     DOM: (
@@ -50,5 +54,6 @@ export default sources => {
           </div>
       ))
     ),
+    // HTTP: xs.of (),
   }
 }

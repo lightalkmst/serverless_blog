@@ -70,14 +70,8 @@ button {
   clear: both;
 }
 
-.post {
-  font-size: 18px;
-}
-
-
-
 .text_hover {
-  transition: color .3s linear;
+  transition: color .2s linear;
 }
 
 .text_hover:hover {
