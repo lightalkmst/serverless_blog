@@ -12,7 +12,7 @@ export default sources => {
 
   const {
     DOM: nav_bar_dom$,
-    nav_state$,
+    navigation$,
   } = nav_bar (sources)
 
   // TODO: search bar
@@ -23,31 +23,39 @@ export default sources => {
   const {
     DOM: home_dom$,
     HTTP: home_http$,
-    post_id_state$,
+    post_id$,
+    post_select$,
   } = home ({
     ...sources,
-    nav_state$,
+    navigation$,
   })
 
   const {
     DOM: blog_post_dom$,
+    HTTP: blog_post_http$,
   } = blog_post ({
     ...sources,
-    post_id_state$,
+    post_id$,
   })
+
+  const page$ =
+    xs.merge (...[
+      navigation$,
+      post_select$.mapTo ('blog_post'),
+    ])
 
   return {
     DOM: (
       xs.combine (...[
+        page$,
         nav_bar_dom$,
-        nav_state$,
         header_dom$,
         home_dom$,
         blog_post_dom$,
       ])
         .map (([
+          page,
           nav_bar_dom,
-          nav_state,
           header_dom,
           home_dom,
           blog_post_dom,
@@ -55,7 +63,7 @@ export default sources => {
           var selected_tab_dom = {
             home_dom,
             blog_post_dom,
-          }[`${nav_state}_dom`]
+          }[`${page}_dom`]
 
           // var selected_tab_dom = blog_post_dom
 
@@ -75,6 +83,7 @@ export default sources => {
     HTTP: (
       xs.merge (...[
         home_http$,
+        blog_post_http$,
       ])
     ),
   }

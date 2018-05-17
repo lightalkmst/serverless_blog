@@ -54,7 +54,7 @@ features to have (TODO: order of importance):
     archive
     excerpts/summaries
     blog tags
-    formatting
+    post formatting
       images
       hyperlinks
       newlines

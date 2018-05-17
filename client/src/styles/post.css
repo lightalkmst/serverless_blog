@@ -1,5 +1,5 @@
 .post {
-  padding: calc(var(--header_height) + 24px) 24px 24px 24px;
+  padding: 24px;
 }
 
 .post_title {

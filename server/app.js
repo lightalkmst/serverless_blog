@@ -132,6 +132,11 @@ get ('posts') ((req, res) => {
     .end ()
 })
 
+get ('post') ((req, res) => {
+  res.json (A.find (x => x.id == req.query.id) (db.posts))
+    .end ()
+})
+
 
 //////////////////
 //              //

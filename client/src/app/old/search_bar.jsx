@@ -29,6 +29,6 @@ export default sources => {
         </div>
       )
     ),
-    // search_state$,
+    // search$,
   }
 }
