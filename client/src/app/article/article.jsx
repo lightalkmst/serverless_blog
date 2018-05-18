@@ -3,24 +3,8 @@ import xs from 'xstream'
 import init from '../../init'
 
 import http_requests from '../common/http_requests'
-
-const post_to_dom = post => {
-
-  return (
-    F.p (post) (
-      S.split (/\n+/)
-      >> A.fold (a => h => [...a, <br />, h]) ([])
-      >> A.tail
-      >> A.tail
-      >> A.filter (F.id)
-      >> A.map (h =>
-        typeof h == 'string'
-        ? <div className='text_hover'>{h}</div>
-        : h
-      )
-    )
-  )
-}
+import published from './published'
+import drafting from './drafting'
 
 export default sources => {
   const {
@@ -29,25 +13,49 @@ export default sources => {
     post_id$,
   } = sources
 
+  const post$ =
+    xs.merge (...[
+      HTTP.select ('get_post').flatten ()
+        .map (res => res.body),
+      post_id$.filter (F.neg (F.id))
+        .mapTo ({}),
+    ])
+
+  const {
+    DOM: drafting_dom$,
+    HTTP: drafting_http$,
+  } = drafting ({
+    ...sources,
+    post$,
+  })
+
+  const {
+    DOM: published_dom$,
+    HTTP: published_http$,
+  } = published ({
+    ...sources,
+    post$,
+  })
+
   return {
     DOM: (
-      HTTP.select ('get_post').flatten ()
-        .map (res => res.body)
-        .map (post => (
-          <div className='post'>
-            <div className='post_title text_hover'>
-              {post.title}
-            </div>
-            <div className='post_data text_hover'>
-              {`Written by ${post.user_id} on ${post.timestamp}`}
-            </div>
-            <div className='post_body'>
-              {post_to_dom (post.post)}
-            </div>
-          </div>
-      ))
+      xs.combine (...[
+        post$,
+        drafting_dom$,
+        published_dom$,
+      ])
+        .map (([post, drafting_dom, published_dom]) =>
+          post.published
+          ? published_dom
+          : drafting_dom
+      )
         .startWith (null)
     ),
-    HTTP: post_id$.map (id => http_requests.get_post ({id}) ()),
+    HTTP: (
+      xs.merge (...[
+        // drafting_http$,
+        published_http$,
+      ])
+    ),
   }
 }

@@ -34,7 +34,7 @@
   float: left;
   clear: left;
   /* display: block; */
-  height: 24px;
+  /* height: 24px; */
   width: var(--nav_bar_width);
   color: white;
   text-align: center;

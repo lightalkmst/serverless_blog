@@ -1,0 +1,55 @@
+.article {
+  padding: 24px;
+}
+
+.article_title {
+  text-align: center;
+  font-size: 24px;
+}
+
+.article_data {
+  text-align: center;
+  font-size: 14px;
+}
+
+.article_body {
+  font-size: 16px;
+}
+
+.draft {
+  height: 100%;
+  width: 100%;
+  padding: 64px;
+}
+
+.draft input {
+  height: 24px;
+  width: auto;
+  background-color: var(--gray1);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  padding-left: 10px;
+}
+
+.draft textarea#summary {
+  height: 64px;
+  width: 100%;
+  background-color: var(--gray1);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  padding-left: 10px;
+  resize: vertical;
+}
+
+.draft textarea#article {
+  height: 128px;
+  width: 100%;
+  background-color: var(--gray1);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  padding-left: 10px;
+  resize: vertical;
+}

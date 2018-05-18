@@ -20,26 +20,35 @@ export default sources => {
 
   var post_select$ =
     xs.merge (...A.map (i =>
-      DOM.select (`#panel_${i}`).events ('click').mapTo (i)
+        DOM.select (`#panel_${i}`).events ('click').mapTo (i)
     ) (A.range (0) (max_posts - 1)))
 
   return {
     DOM: (
       posts$.map (posts => (
-        <div className='home_grid'>
-          {
-            A.mapi (i => post =>
-              <div id={`panel_${i}`} className='panel'>
-                <div>
-                  <div className='title'>
-                    <h1>{post.title}</h1>
+        <div className=''>
+          <div className='create'>
+            <button id='create'>{'Create +'/* TODO: hide for non-super users */}</button>
+          </div>
+          <div className='home_grid'>
+            {
+              A.mapi (i => post =>
+                <div id={`panel_${i}`} className='panel'>
+                  <div>
+                    <div className='title'>
+                      <h1>{post.title}</h1>
+                    </div>
+                    <div className='info'>
+                      {`Posted: ${post.timestamp}` /* TODO: format date time */}
+                      <br />
+                      {`Tags: ${post.tags}`}
+                    </div>
+                    <div className='summary'>{post.summary}</div>
                   </div>
-                  <div className='tags'>{`Tags: ${post.tags}`}</div>
-                  <div className='summary'>{post.summary}</div>
                 </div>
-              </div>
-            ) (posts)
-          }
+              ) (posts)
+            }
+          </div>
         </div>
       ))
     ),
@@ -49,12 +58,21 @@ export default sources => {
         .map (http_requests.get_posts ({}))
     ),
     post_id$: (
-      xs.combine (...[
-        post_select$,
-        posts$,
+      xs.merge (...[
+        xs.combine (...[
+          post_select$,
+          posts$,
+        ])
+          .map (([i, posts]) => posts[i].id),
+        DOM.select ('#create').events ('click').mapTo (0),
       ])
-        .map (([i, posts]) => posts[i].id)
     ),
-    post_select$: post_select$.mapTo ('article'),
+    post_select$: (
+      xs.merge (...[
+        post_select$,
+        DOM.select ('#create').events ('click'),
+      ])
+        .mapTo ('article')
+    ),
   }
 }

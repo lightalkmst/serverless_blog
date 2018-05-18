@@ -21,7 +21,7 @@
 }
 
 .panel :hover {
-  color: white;
+  color: #dddddd;
 }
 
 .panel > div {
@@ -43,7 +43,12 @@
   margin: 6px;
 }
 
-.panel .tags {
+.panel .info {
   margin: 6px;
   font-size: 12px;
+}
+
+.create {
+  padding: 24px 24px 0px 24px;
+  text-align: right;
 }

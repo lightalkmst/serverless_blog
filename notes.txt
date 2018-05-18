@@ -58,6 +58,7 @@ features to have (TODO: order of importance):
       images
       hyperlinks
       newlines
+    announcements
     comments
       https://en.wikipedia.org/wiki/Nofollow
       lazy loaded

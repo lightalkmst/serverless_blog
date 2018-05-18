@@ -17,7 +17,7 @@ export default sources => {
         'profile',
         'logout',
       ]),
-      DOM.select ('logo_tab').events ('click').mapTo ('home')
+      DOM.select ('#logo_tab').events ('click').mapTo ('home'),
     ])
       .startWith ('home')
 
@@ -25,7 +25,6 @@ export default sources => {
 
   return {
     DOM: (
-      // TODO: style highlighting for selected state
       xs.combine (...[
         navigation$,
         blog_logo_dom$,
