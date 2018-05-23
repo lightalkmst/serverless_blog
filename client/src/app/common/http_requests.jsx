@@ -21,12 +21,18 @@ const post = path => category => query => send => ({
   send,
 })
 
+const del = path => category => query => () => ({
+  // url: `${base_url}${path}`,
+  url: path,
+  category,
+  method: 'DELETE',
+  query,
+})
+
 export default {
   get_posts: get ('posts') ('get_posts'),
-  get_post: get ('post') ('get_post'),
 
-  get_services: get ('') ('get_services'),
-  get_features: get ('') ('get_features'),
-  add_service: post ('') ('add_service'),
-  add_feature: post ('') ('add_feature'),
+  get_post: get ('post') ('get_post'),
+  del_post: del ('post') ('del_post'),
+  post_post: post ('post') ('post_post'),
 }

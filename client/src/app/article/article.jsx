@@ -15,8 +15,13 @@ export default sources => {
 
   const post$ =
     xs.merge (...[
-      HTTP.select ('get_post').flatten ()
-        .map (res => res.body),
+      xs.merge (...A.map (x => HTTP.select (x).flatten ()) ([
+        'get_post',
+        'post_post',
+        'del_post',
+      ]))
+        .map (D.get ('body'))
+        .map (F.tap (F.log)),
       post_id$.filter (F.neg (F.id))
         .mapTo ({}),
     ])
@@ -27,6 +32,7 @@ export default sources => {
   } = drafting ({
     ...sources,
     post$,
+    post_id$,
   })
 
   const {
@@ -53,7 +59,7 @@ export default sources => {
     ),
     HTTP: (
       xs.merge (...[
-        // drafting_http$,
+        drafting_http$,
         published_http$,
       ])
     ),

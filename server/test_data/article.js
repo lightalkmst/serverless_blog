@@ -5,10 +5,10 @@ module.exports = {
   summary: `
     Spicy jalapeno bacon ipsum dolor amet pork belly pork chop jerky frankfurter filet mignon pork loin chuck. Capicola pancetta turducken tri-tip swine burgdoggen sausage. Cupim jerky sausage sirloin bresaola leberkas porchetta beef ribs ham chicken flank meatloaf ribeye kevin. Pancetta meatball jowl cupim. Ground round strip steak frankfurter pork hamburger tail beef venison prosciutto corned beef boudin swine turkey jowl shank. Jowl swine ball tip sausage.
   `,
-  timestamp: '5/16/2018',
+  timestamp: `${new Date ()}`,
   tags: 'a, b, c',
   published: true,
-  post: `
+  article: `
     Spicy jalapeno bacon ipsum dolor amet pork belly pork chop jerky frankfurter filet mignon pork loin chuck. Capicola pancetta turducken tri-tip swine burgdoggen sausage. Cupim jerky sausage sirloin bresaola leberkas porchetta beef ribs ham chicken flank meatloaf ribeye kevin. Pancetta meatball jowl cupim. Ground round strip steak frankfurter pork hamburger tail beef venison prosciutto corned beef boudin swine turkey jowl shank. Jowl swine ball tip sausage.
 
     Shankle prosciutto shank filet mignon drumstick pork loin fatback kevin tongue. Burgdoggen bresaola tail sirloin sausage ground round salami meatball jerky biltong tri-tip. Pork loin meatloaf ball tip doner tri-tip turkey. Jowl sirloin corned beef kielbasa burgdoggen pork belly tri-tip biltong.
@@ -32,5 +32,5 @@ module.exports = {
     Rump sirloin meatloaf, salami pork loin jerky meatball tongue filet mignon strip steak boudin t-bone. Corned beef buffalo drumstick, leberkas frankfurter fatback brisket spare ribs beef meatloaf capicola. Swine shoulder kevin tenderloin venison, tongue jowl beef ribs ball tip biltong picanha turducken turkey porchetta chicken. Chuck flank turkey meatball, spare ribs bresaola jerky beef ribs pork belly shoulder venison buffalo. Short ribs kielbasa andouille, beef buffalo picanha tongue meatball frankfurter pig kevin bresaola. Ground round chicken andouille t-bone shoulder pig.
 
     Pastrami spare ribs ground round short loin landjaeger cupim, drumstick kevin jowl ham ball tip pig. Meatloaf ham hock shankle pancetta. Picanha alcatra prosciutto filet mignon, shoulder shankle meatloaf beef ball tip cow hamburger pork chop bacon. Turkey tail andouille strip steak buffalo hamburger meatloaf, pancetta boudin kielbasa biltong chuck jerky shoulder.
-  `,
+  `.trim (),
 }

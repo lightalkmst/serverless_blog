@@ -55,7 +55,7 @@ input {
 }
 
 button {
-  height: 24px;
+  height: 36px;
   width: auto;
   background-color: var(--gray1);
   color: white;

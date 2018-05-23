@@ -15,19 +15,19 @@ export default sources => {
 
   var posts$ =
     HTTP.select ('get_posts').flatten ()
-      .map (res => res.body)
+      .map (D.get ('body'))
       .map (A.sort (x => y => new Date (y.timestamp) - new Date (x.timestamp)))
 
   var post_select$ =
     xs.merge (...A.map (i =>
-        DOM.select (`#panel_${i}`).events ('click').mapTo (i)
+        DOM.select (`#panel_${i} div`).events ('click').mapTo (i)
     ) (A.range (0) (max_posts - 1)))
 
   return {
     DOM: (
       posts$.map (posts => (
         <div className=''>
-          <div className='create'>
+          <div className='right'>
             <button id='create'>{'Create +'/* TODO: hide for non-super users */}</button>
           </div>
           <div className='home_grid'>
@@ -42,6 +42,7 @@ export default sources => {
                       {`Posted: ${post.timestamp}` /* TODO: format date time */}
                       <br />
                       {`Tags: ${post.tags}`}
+                      {/* TODO: published note for super users for their own posts */}
                     </div>
                     <div className='summary'>{post.summary}</div>
                   </div>

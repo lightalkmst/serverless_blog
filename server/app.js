@@ -91,22 +91,21 @@ var [get, post, put, del, all] = A.map (rest) (['get', 'post', 'put', 'delete', 
 //   user_to_id FOREIGN KEY INTEGER,
 //   message TEXT,
 //   timestamp TIMESTAMPTZ,
-var users_id = 1
-var posts_id = 1
-var comments_id = 1
-var messages_id = 1
 var db = {
   users: [],
   posts: [],
   comments: [],
   messages: [],
 }
-
 var article = require ('./test_data/article')
 db.posts = A.map (i => D.extend (article) ({
   id: i,
-  timestamp: new Date () + i,
+  title: i,
 })) (A.range (1) (10))
+var users_id = db.users.length + 1
+var posts_id = db.posts.length + 1
+var comments_id = db.comments.length + 1
+var messages_id = db.messages.length + 1
 
 // get_posts
 get ('posts') ((req, res) => {
@@ -114,14 +113,6 @@ get ('posts') ((req, res) => {
     F.p (db.posts) (
       // TODO: add user check if not published
       A.filter (post => post.published)
-      >> A.mapi (i => post => ({
-        id: post.id,
-        user_id: post.user_id,
-        title: `${post.title} ${i}`,
-        summary: post.summary,
-        timestamp: post.timestamp,
-        tags: post.tags,
-      }))
     )
   )
     .end ()
@@ -129,6 +120,35 @@ get ('posts') ((req, res) => {
 
 get ('post') ((req, res) => {
   res.json (A.find (x => x.id == req.query.id) (db.posts))
+    .end ()
+})
+
+// Table: Posts
+//   id PRIMARY KEY INTEGER,
+//   user_id FOREIGN KEY INTEGER,
+//   title TEXT,
+//   summary TEXT,
+//   timestamp TIMESTAMPTZ,
+//   tags TEXT,
+//   published BOOLEAN,
+//   post TEXT,
+post ('post') ((req, res) => {
+  // TODO: overwriting by id
+  var post = {
+    ...req.body,
+    id: posts_id++,
+    // TODO: get from cookie
+    user_id: 1,
+    timestamp: `${new Date ()}`,
+  }
+  db = {...db, posts: [...db.posts, post]}
+  res.json (post)
+    .end ()
+})
+
+del ('post') ((req, res) => {
+  db = {...db, posts: A.filter (x => x.id != req.query.id) (db.posts)}
+  res.json ({})
     .end ()
 })
 

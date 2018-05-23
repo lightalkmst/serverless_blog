@@ -5,12 +5,10 @@ import init from '../../init'
 import http_requests from '../common/http_requests'
 
 const post_to_dom = post => {
-
   return (
     F.p (post) (
       S.split (/\n+/)
       >> A.fold (a => h => [...a, <br />, h]) ([])
-      >> A.tail
       >> A.tail
       >> A.filter (F.id)
       >> A.map (h =>
@@ -42,7 +40,7 @@ export default sources => {
               {`Written by ${post.user_id} on ${post.timestamp}`}
             </div>
             <div className='article_body'>
-              {post_to_dom (post.post)}
+              {post_to_dom (post.article)}
             </div>
           </div>
       ))

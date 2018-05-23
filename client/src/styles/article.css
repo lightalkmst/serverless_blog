@@ -32,7 +32,7 @@
   padding-left: 10px;
 }
 
-.draft textarea#summary {
+.draft textarea#draft_summary {
   height: 64px;
   width: 100%;
   background-color: var(--gray1);
@@ -43,7 +43,7 @@
   resize: vertical;
 }
 
-.draft textarea#article {
+.draft textarea#draft_article {
   height: 128px;
   width: 100%;
   background-color: var(--gray1);
