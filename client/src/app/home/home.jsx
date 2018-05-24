@@ -28,7 +28,7 @@ export default sources => {
       posts$.map (posts => (
         <div className=''>
           <div className='right'>
-            <button id='create'>{'Create +'/* TODO: hide for non-super users */}</button>
+            <button id='create'>{'Create' /* TODO: hide for non-super users */}</button>
           </div>
           <div className='home_grid'>
             {

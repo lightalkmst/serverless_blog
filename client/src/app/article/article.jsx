@@ -20,8 +20,7 @@ export default sources => {
         'post_post',
         'del_post',
       ]))
-        .map (D.get ('body'))
-        .map (F.tap (F.log)),
+        .map (D.get ('body')),
       post_id$.filter (F.neg (F.id))
         .mapTo ({}),
     ])
@@ -32,7 +31,14 @@ export default sources => {
   } = drafting ({
     ...sources,
     post$,
-    post_id$,
+    post_id$: (
+      xs.merge (...[
+        post_id$,
+        HTTP.select ('post_post').flatten ()
+          .map (D.get ('body'))
+          .map (D.get ('id')),
+      ])
+    ),
   })
 
   const {
