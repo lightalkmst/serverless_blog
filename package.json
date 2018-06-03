@@ -27,12 +27,12 @@
     "request": "^2.72.0",
     "helmet": "^2.1.2",
     "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
     "pg": "^7.4.3",
     "archiver": "^2.1.1",
     "green_curry": "*"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "start": "npm run build && node server/app.js",
     "test": "npm run build && node scripts/test.js",

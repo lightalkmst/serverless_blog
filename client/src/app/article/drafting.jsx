@@ -57,7 +57,6 @@ export default sources => {
       ])
         .map (([post, [saved, deleted]]) =>
           <div className='draft'>
-            {/* fading saved notice */}
             {'Title: '}
             <br />
             <input id='draft_title'></input>
@@ -73,11 +72,15 @@ export default sources => {
             {'Article: '}
             <br />
             <textarea id='draft_article'></textarea>
-            {saved && <div>Successfully saved</div>}
-            {deleted && <div>Successfully deleted</div>}
-            <button id='draft_delete' className='left'>Delete</button>
-            <button id='draft_save' className='right'>Save</button>
-            <button id='draft_publish' className='right'>Publish</button>
+            <div>
+              {saved && 'Successfully saved'}
+              {deleted && 'Successfully deleted'}
+            </div>
+            <div className='right'>
+              <button id='draft_delete'>Delete</button>
+              <button id='draft_save'>Save</button>
+              <button id='draft_publish'>Publish</button>
+            </div>
           </div>
       )
     ),

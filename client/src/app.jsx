@@ -2,13 +2,29 @@ import xs from 'xstream'
 
 import init from './init'
 
+import login from './app/user/login'
+import logout from './app/user/logout'
+import profile from './app/user/profile'
 import nav_bar from './app/nav_bar/nav_bar'
 import header from './app/header/header'
-import home from './app/home/home'
+import recent from './app/recent/recent'
 import article from './app/article/article'
 
 export default sources => {
   const {DOM, HTTP} = sources
+
+  // const {
+  //   DOM: login_dom$,
+  //   HTTP: login_http$,
+  // } = login (sources)
+  //
+  // const {
+  //
+  // } = logout (sources)
+  //
+  // const {
+  //
+  // } = profile (sources)
 
   const {
     DOM: nav_bar_dom$,
@@ -21,11 +37,11 @@ export default sources => {
   } = header (sources)
 
   const {
-    DOM: home_dom$,
-    HTTP: home_http$,
+    DOM: recent_dom$,
+    HTTP: recent_http$,
     post_id$,
     post_select$,
-  } = home ({
+  } = recent ({
     ...sources,
     navigation$,
   })
@@ -40,7 +56,19 @@ export default sources => {
 
   const page$ =
     xs.merge (...[
-      navigation$,
+      // navigation$,
+      // redirect user to login if session times out
+      xs.merge (...[
+        navigation$,
+        xs.merge (...[
+          HTTP.select ().flatten ()
+        ])
+          .map (D.get ('authenticated'))
+          .fold ((a, h) => [h, a[0] && !h], [false, false])
+          .map (A.get (1))
+          .filter (F.id)
+          .mapTo ('login')
+      ]),
       post_select$,
     ])
 
@@ -50,18 +78,18 @@ export default sources => {
         page$,
         nav_bar_dom$,
         header_dom$,
-        home_dom$,
+        recent_dom$,
         article_dom$,
       ])
         .map (([
           page,
           nav_bar_dom,
           header_dom,
-          home_dom,
+          recent_dom,
           article_dom,
         ]) => {
           var selected_tab_dom = {
-            home_dom,
+            recent_dom,
             article_dom,
           }[`${page}_dom`]
 
@@ -82,7 +110,7 @@ export default sources => {
     ),
     HTTP: (
       xs.merge (...[
-        home_http$,
+        recent_http$,
         article_http$,
       ])
     ),

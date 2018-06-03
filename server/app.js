@@ -22,6 +22,8 @@ var http = require ('http')
 
 var express = require ('express')
 var app = express ()
+var cookieParser = require ('cookie-parser')
+app.use (cookieParser ())
 var bodyParser = require ('body-parser')
 app.use (bodyParser.urlencoded ({extended: false}))
 app.use (bodyParser.json ())
@@ -100,7 +102,7 @@ var db = {
 var article = require ('./test_data/article')
 db.posts = A.map (i => D.extend (article) ({
   id: i,
-  title: i,
+  title: `${article.title} ${i}`,
 })) (A.range (1) (10))
 var users_id = db.users.length + 1
 var posts_id = db.posts.length + 1
@@ -148,6 +150,12 @@ post ('post') ((req, res) => {
 
 del ('post') ((req, res) => {
   db = {...db, posts: A.filter (x => x.id != req.query.id) (db.posts)}
+  res.json ({})
+    .end ()
+})
+
+get ('id') ((req, res) => {
+  console.log (req.cookies)
   res.json ({})
     .end ()
 })

@@ -56,11 +56,17 @@ input {
 
 button {
   height: 36px;
-  width: auto;
+  width: 128px;
   background-color: var(--gray1);
   color: white;
   border: 0;
   border-radius: 8px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  background-color: black;
 }
 
 .main {
@@ -79,4 +85,14 @@ button {
 
 .text_hover:hover {
   color: white;
+}
+
+.left {
+  padding: 24px 24px 0px 24px;
+  text-align: left;
+}
+
+.right {
+  padding: 24px 24px 0px 24px;
+  text-align: right;
 }

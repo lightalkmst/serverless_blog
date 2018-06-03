@@ -1,7 +1,6 @@
 {
   "private": true,
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "@cycle/dom": "18.3.0",
     "@cycle/run": "3.3.0",
