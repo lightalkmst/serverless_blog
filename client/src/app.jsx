@@ -13,19 +13,6 @@ import article from './app/article/article'
 export default sources => {
   const {DOM, HTTP} = sources
 
-  // const {
-  //   DOM: login_dom$,
-  //   HTTP: login_http$,
-  // } = login (sources)
-  //
-  // const {
-  //
-  // } = logout (sources)
-  //
-  // const {
-  //
-  // } = profile (sources)
-
   const {
     DOM: nav_bar_dom$,
     navigation$,
@@ -54,6 +41,19 @@ export default sources => {
     post_id$,
   })
 
+  const {
+    DOM: login_dom$,
+    // HTTP: login_http$,
+  } = login (sources)
+
+  // const {
+  //
+  // } = logout (sources)
+  //
+  // const {
+  //
+  // } = profile (sources)
+
   const page$ =
     xs.merge (...[
       // navigation$,
@@ -80,6 +80,7 @@ export default sources => {
         header_dom$,
         recent_dom$,
         article_dom$,
+        login_dom$,
       ])
         .map (([
           page,
@@ -87,10 +88,12 @@ export default sources => {
           header_dom,
           recent_dom,
           article_dom,
+          login_dom,
         ]) => {
           var selected_tab_dom = {
             recent_dom,
             article_dom,
+            login_dom,
           }[`${page}_dom`]
 
           // var selected_tab_dom = article_dom

@@ -32,7 +32,6 @@
     "archiver": "^2.1.1",
     "green_curry": "*"
   },
-  "dependencies": {},
   "scripts": {
     "start": "npm run build && node server/app.js",
     "test": "npm run build && node scripts/test.js",
