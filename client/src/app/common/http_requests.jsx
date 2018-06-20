@@ -35,4 +35,8 @@ export default {
   get_post: get ('post') ('get_post'),
   del_post: del ('post') ('del_post'),
   post_post: post ('post') ('post_post'),
+
+  post_login: post ('login') ('post_login'),
+
+  post_account: post ('account') ('post_account'),
 }

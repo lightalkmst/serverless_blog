@@ -154,11 +154,11 @@ del ('post') ((req, res) => {
     .end ()
 })
 
-get ('id') ((req, res) => {
-  console.log (req.cookies)
-  res.json ({})
-    .end ()
-})
+// get ('id') ((req, res) => {
+//   console.log (req.cookies)
+//   res.json ({})
+//     .end ()
+// })
 
 
 //////////////////
@@ -176,16 +176,6 @@ A.iter (([web_path, file_path, type]) => serve_static_file (web_path) (file_path
   ['yxyha.jpg', 'build/client/yxyha.jpg', 'plain'],
   ['', 'build/client/index.html', 'html'],
 ])
-
-// var does_not_exist = (() => {
-//   var file = fs.readFileSync ('frontend/html/404.html')
-//   return (req, res) => {
-//     log ('Attempted to access nonexistent resource ' + req.url)
-//     write (res) (404, 'html', file)
-//   }
-// }) ()
-
-// get ('*') (does_not_exist)
 
 ////////////////////
 //                //

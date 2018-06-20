@@ -43,7 +43,7 @@ export default sources => {
 
   const {
     DOM: login_dom$,
-    // HTTP: login_http$,
+    HTTP: login_http$,
   } = login (sources)
 
   // const {
@@ -115,6 +115,7 @@ export default sources => {
       xs.merge (...[
         recent_http$,
         article_http$,
+        login_http$,
       ])
     ),
   }

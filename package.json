@@ -33,10 +33,10 @@
     "green_curry": "*"
   },
   "scripts": {
-    "start": "npm run build && node server/app.js",
-    "test": "npm run build && node scripts/test.js",
+    "start": "npm run dev_build && node server/app.js",
+    "test": "npm run dev_build && node scripts/test.js",
     "build": "node scripts/build.js && node scripts/build_lambdas.js",
-    "dev_build": "node scripts/dev_build.js",
+    "dev_build": "node scripts/build.js",
     "inst-rec": "npm install && cd client && npm install && cd../serverless && npm install"
   }
 }
