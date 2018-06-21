@@ -1,17 +1,19 @@
-const { Client } = require ('pg')
-const config = require ('./config')
+const {Client} = require ('pg')
+const cfg = require ('./config')
 
 const client = new Client ({
-  user: config.user,
-  host: config.host,
-  database: config.database,
-  password: config.password,
-  port: config.port,
+  user: cfg.user,
+  host: cfg.host,
+  database: cfg.database,
+  password: cfg.password,
+  port: cfg.port,
 })
+;(async () => await client.connect ()) ()
 
-const get_creds = user_id =>
+const get_creds = async user_id =>
   (await client.query ({
-    text: 'SELECT password, role FROM users WHERE id = $1::INTEGER',
+    // text: 'SELECT password, role FROM users WHERE id = $1::INTEGER',
+    text: 'SELECT * FROM users',
     values: [~~cookies.user_id],
   }))[0]
 
@@ -21,7 +23,7 @@ const authenticate = cookies => password =>
   && password
   && bcrypt.compareSync (`${cookies.user_id % 1000}${cookies.timestamp % 1000}${password}`, cookies.session_token)
 
-const generate_token = user_id => password => bcrypt.hashSync (`${cookies.user_id % 1000}${new Date ().getTime () % 1000}${password}`, config.rounds)
+const generate_token = user_id => password => bcrypt.hashSync (`${cookies.user_id % 1000}${new Date ().getTime () % 1000}${password}`, cfg.rounds)
 
 // user cookie: {
 //   user_id
@@ -29,33 +31,32 @@ const generate_token = user_id => password => bcrypt.hashSync (`${cookies.user_i
 //   session_token
 // }
 const query = query => f1 => f2 => async event => {
-  await client.connect ()
   // authenticate
   //   get user id, timestamp, and token from cookie
   //   query db for password hash
   //   authenticated if matched
   const cookies = {}
-  (event.headers.Cookie || '').split (';')
+  ;(event.headers.Cookie || '').split (';')
     .filter (x => x)
     .map (x => x.split ('='))
     .forEach (([k, v]) => cookies[k] = v)
   const {password, role} = cookies.user_id && parseInt (cookies.user_id) ? get_creds (cookies.user_id) || {} : {}
-  const authenticated = authenticate (cookies) (password)
+  const auth = authenticate (cookies) (password)
   // transact
   //   db calls for the operation
   const req = {
     text: query,
-    values: f1 (authenticated) (cookies.user_id) (event),
+    values: f1 (auth) (cookies.user_id) (event),
   }
-  const res = await client.query (req)
-  await client.end ()
+  const res = (await client.query (req)).rows
+  cfg.local || await client.end ()
   // refresh session token if authenticated
   //   generate new timestamp and token
   return {
     isBase64Encoded: false,
     statusCode: 200,
     headers: (
-      authenticated
+      auth
       ? {
         'Access-Control-Allow-Origin': '*', // Required for CORS support to work
         'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
@@ -64,8 +65,8 @@ const query = query => f1 => f2 => async event => {
       : {}
     ),
     body: JSON.stringify ({
-      authenticated,
-      response: f2 (authenticated) (cookies.user_id) (res),
+      auth,
+      response: f2 (auth) (cookies.user_id) (res),
     }),
   }
 }

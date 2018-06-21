@@ -15,7 +15,7 @@ export default sources => {
 
   var posts$ =
     HTTP.select ('get_posts').flatten ()
-      .map (D.get ('body'))
+      .map (HTTP_resp)
       .map (A.sort (x => y => new Date (y.timestamp) - new Date (x.timestamp)))
 
   var post_select$ =

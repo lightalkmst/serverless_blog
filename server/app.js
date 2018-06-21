@@ -109,16 +109,16 @@ var posts_id = db.posts.length + 1
 var comments_id = db.comments.length + 1
 var messages_id = db.messages.length + 1
 
-// get_posts
-get ('posts') ((req, res) => {
-  res.json (
-    F.p (db.posts) (
-      // TODO: add user check if not published
-      A.filter (post => post.published)
-    )
-  )
-    .end ()
-})
+// // get_posts
+// get ('posts') ((req, res) => {
+//   res.json (
+//     F.p (db.posts) (
+//       // TODO: add user check if not published
+//       A.filter (post => post.published)
+//     )
+//   )
+//     .end ()
+// })
 
 get ('post') ((req, res) => {
   res.json (A.find (x => x.id == req.query.id) (db.posts))
@@ -160,6 +160,25 @@ del ('post') ((req, res) => {
 //     .end ()
 // })
 
+// TODO: reset db
+
+// config hijack for local
+// TODO: replace using config file to allow for remote config
+const crud_cfg = require ('../serverless/src/common/config')
+crud_cfg.user = 'postgres'
+crud_cfg.host = 'localhost'
+crud_cfg.database = 'blog'
+crud_cfg.password = 'postgres'
+crud_cfg.port = 5432
+crud_cfg.rounds = 10
+crud_cfg.local = true
+
+// convert AWS lambdas to server controllers
+const adapter = handler => async (req, res) => res.json ((await handler (req)).body)
+
+A.iter (([method, path, f]) => method (path) (adapter (require (`../serverless/src/${f}`)))) ([
+  [get, 'posts', 'get_posts'],
+])
 
 //////////////////
 //              //
