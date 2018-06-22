@@ -164,14 +164,12 @@ del ('post') ((req, res) => {
 
 // config hijack for local
 // TODO: replace using config file to allow for remote config
+const db_cfg = require ('./config.js')
 const crud_cfg = require ('../serverless/src/common/config')
-crud_cfg.user = 'postgres'
-crud_cfg.host = 'localhost'
-crud_cfg.database = 'blog'
-crud_cfg.password = 'postgres'
-crud_cfg.port = 5432
-crud_cfg.rounds = 10
-crud_cfg.local = true
+D.iterk (k => v => crud_cfg[k] = v) ({
+  ...db_cfg,
+  local: true,
+})
 
 // convert AWS lambdas to server controllers
 const adapter = handler => async (req, res) => res.json ((await handler (req)).body)

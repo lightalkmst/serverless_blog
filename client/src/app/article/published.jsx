@@ -39,6 +39,7 @@ export default sources => {
             <div className='article_data text_hover'>
               {`Written by ${post.user_id} on ${post.timestamp}`}
             </div>
+            <br />
             <div className='article_body'>
               {post_to_dom (post.article)}
             </div>
