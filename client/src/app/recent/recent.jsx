@@ -36,7 +36,8 @@ export default sources => {
                       <h1>{post.title}</h1>
                     </div>
                     <div className='info'>
-                      {`Posted: ${post.timestamp}` /* TODO: format date time */}
+                      {`Posted: ${time_string (post.created)}`}
+                      {post.updated && `Updated: ${time_string (post.updated)}`}
                       <br />
                       {`Tags: ${post.tags}`}
                       {/* TODO: published note for super users for their own posts */}

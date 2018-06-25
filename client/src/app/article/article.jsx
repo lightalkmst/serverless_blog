@@ -20,7 +20,8 @@ export default sources => {
         'post_post',
         'del_post',
       ]))
-        .map (D.get ('body')),
+        .map (HTTP_resp)
+        .map (A.get (0)),
       post_id$.filter (F.neg (F.id))
         .mapTo ({}),
     ])

@@ -13,6 +13,30 @@ window.HTTP_resp = F.c (
   >> D.get ('response')
 )
 
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
+window.time_string = timestamp => {
+  const date = new Date (timestamp)
+  const day = date.getDate ()
+  const month = date.getMonth () // reminder: 1 less than expected
+  const year = date.getFullYear ()
+  const hour = date.getHours ()
+  const minute = date.getMinutes ()
+  return `${months[month]} ${day}, ${year} ${hour}:${minute}`
+}
+
 import {} from './styles/general.css'
 import {} from './styles/nav_bar.css'
 import {} from './styles/header.css'

@@ -10,6 +10,7 @@ const get = path => category => query => () => ({
   category,
   method: 'GET',
   query,
+  withCredentials: true,
 })
 
 const post = path => category => query => send => ({
@@ -19,6 +20,7 @@ const post = path => category => query => send => ({
   method: 'POST',
   query,
   send,
+  withCredentials: true,
 })
 
 const del = path => category => query => () => ({
@@ -27,6 +29,7 @@ const del = path => category => query => () => ({
   category,
   method: 'DELETE',
   query,
+  withCredentials: true,
 })
 
 export default {

@@ -5,4 +5,5 @@ module.exports = {
   password: 'secretpassword',
   port: 5432,
   rounds: 10,
+  salt: 'banananutbread',
 }

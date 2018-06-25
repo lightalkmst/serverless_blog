@@ -2,9 +2,12 @@ CREATE SCHEMA blog;
 
 CREATE TABLE IF NOT EXISTS blog.users (
   id SERIAL PRIMARY KEY,
-  email TEXT,
+  email TEXT UNIQUE,
   pass TEXT,
-  name TEXT
+  name TEXT,
+  roles TEXT,
+  verified BOOLEAN,
+  created TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS blog.posts (
@@ -12,8 +15,8 @@ CREATE TABLE IF NOT EXISTS blog.posts (
   user_id INTEGER REFERENCES blog.users(id),
   title TEXT,
   summary TEXT,
-  created TIMESTAMPTZ,
-  updated TIMESTAMPTZ,
+  created TIMESTAMP,
+  updated TIMESTAMP,
   tags TEXT,
   published BOOLEAN,
   post TEXT
@@ -21,11 +24,12 @@ CREATE TABLE IF NOT EXISTS blog.posts (
 
 CREATE TABLE IF NOT EXISTS blog.comments (
   id SERIAL PRIMARY KEY,
+  post_id INTEGER REFERENCES blog.posts(id),
   user_id INTEGER REFERENCES blog.users(id),
   replied_comment_id INTEGER,
   comment TEXT,
-  created TIMESTAMPTZ,
-  updated TIMESTAMPTZ
+  created TIMESTAMP,
+  updated TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS blog.messages (
@@ -33,6 +37,6 @@ CREATE TABLE IF NOT EXISTS blog.messages (
   user_from_id INTEGER REFERENCES blog.users(id),
   user_to_id INTEGER REFERENCES blog.users(id),
   message TEXT,
-  created TIMESTAMPTZ,
-  updated TIMESTAMPTZ
+  created TIMESTAMP,
+  updated TIMESTAMP
 );

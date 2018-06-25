@@ -1,49 +1,4 @@
-use npm archiver to package Lambdas
-
-
-
-
-
-
-
-set up db
-design db schema
-
-
-postgresql
-
-Table: User
-  id PRIMARY KEY INTEGER,
-  username TEXT,
-  passhash TEXT,
-  email TEXT,
-
-Table: Posts
-  id PRIMARY KEY INTEGER,
-  user_id FOREIGN KEY INTEGER,
-  title TEXT,
-  summary TEXT,
-  timestamp TIMESTAMPTZ,
-  tags TEXT,
-  published BOOLEAN,
-  post TEXT,
-
-Table: Comments
-  id INTEGER,
-  user_id FOREIGN KEY INTEGER,
-  replied_comment_id INTEGER,
-  comment TEXT,
-  timestamp TIMESTAMPTZ,
-
-Table: Messages
-  id INTEGER,
-  user_from_id FOREIGN KEY INTEGER,
-  user_to_id FOREIGN KEY INTEGER,
-  message TEXT,
-  timestamp TIMESTAMPTZ,
-
-
-authentication and security needs to be done in each relevant Lambda
+TODO: crud queries
 
 features to have (TODO: order of importance):
   necessary:
@@ -52,8 +7,6 @@ features to have (TODO: order of importance):
     posts
       search
     archive
-    excerpts/summaries
-    blog tags
     post formatting
       images
       hyperlinks

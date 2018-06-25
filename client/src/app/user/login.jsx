@@ -53,7 +53,7 @@ export default sources => {
           .compose (sampleCombine (
             xs.combine (
               ...A.map (x =>
-                DOM.select ('#login_email').events ('input')
+                DOM.select (x).events ('input')
                   .map (x => x.target.value)
               ) (['#login_email', '#login_pass'])
             )
