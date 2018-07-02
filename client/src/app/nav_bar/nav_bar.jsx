@@ -14,9 +14,7 @@ export default sources => {
         'recent',
         'archive',
         'about',
-        'login',
-        'profile',
-        'logout',
+        'account'
       ]),
       DOM.select ('#logo_tab').events ('click').mapTo ('home'),
     ])
@@ -48,9 +46,7 @@ export default sources => {
               <li id='recent_tab'>Recent</li>
               <li id='archive_tab'>Archive</li>
               <li id='about_tab'>About</li>
-              <li id='login_tab'>Login</li>
-              <li id='profile_tab'>Profile</li>
-              <li id='logout_tab'>Logout</li>
+              <li id='account_tab'>Account</li>
             </ul>
           </div>
       ])

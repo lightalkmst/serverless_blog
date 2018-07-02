@@ -2,9 +2,7 @@ import xs from 'xstream'
 
 import init from './init'
 
-import login from './app/user/login'
-import logout from './app/user/logout'
-import profile from './app/user/profile'
+import account from './app/user/account'
 import nav_bar from './app/nav_bar/nav_bar'
 import header from './app/header/header'
 import recent from './app/recent/recent'
@@ -42,17 +40,9 @@ export default sources => {
   })
 
   const {
-    DOM: login_dom$,
-    HTTP: login_http$,
-  } = login (sources)
-
-  // const {
-  //
-  // } = logout (sources)
-  //
-  // const {
-  //
-  // } = profile (sources)
+    DOM: account_dom$,
+    HTTP: account_http$,
+  } = account (sources)
 
   const page$ =
     xs.merge (...[
@@ -80,7 +70,7 @@ export default sources => {
         header_dom$,
         recent_dom$,
         article_dom$,
-        login_dom$,
+        account_dom$,
       ])
         .map (([
           page,
@@ -88,15 +78,13 @@ export default sources => {
           header_dom,
           recent_dom,
           article_dom,
-          login_dom,
+          account_dom,
         ]) => {
           var selected_tab_dom = {
             recent_dom,
             article_dom,
-            login_dom,
+            account_dom,
           }[`${page}_dom`]
-
-          // var selected_tab_dom = article_dom
 
           return (
             <div>
@@ -115,7 +103,7 @@ export default sources => {
       xs.merge (...[
         recent_http$,
         article_http$,
-        login_http$,
+        account_http$,
       ])
     ),
   }

@@ -10,6 +10,7 @@ const handler = async event => {
       FROM blog.users
       WHERE email = $1::TEXT
     `, [event.body.email.toLowerCase ()])
+  cfg.local || await client.end ()
   return format (
     !resp.rows.length || !bcrypt.compareSync (event.body.pass, resp.rows[0].pass)
     ? {body: {error: 'email and password combination not found'}}

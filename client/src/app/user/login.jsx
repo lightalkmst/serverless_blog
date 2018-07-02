@@ -2,6 +2,7 @@ import xs from 'xstream'
 import sampleCombine from 'xstream/extra/sampleCombine'
 
 import init from '../../init'
+
 import http_requests from '../common/http_requests'
 
 export default sources => {
@@ -10,9 +11,9 @@ export default sources => {
   return {
     DOM: (
       xs.of (
-        <div id='login' className='login'>
+        <div id='login' className=''>
           <div className='panel'>
-            <div>
+            <div className=''>
               <div className='title'>
                 <h1>{'Login'}</h1>
               </div>

@@ -31,7 +31,7 @@ export default sources => {
             A.mapi (i => post =>
               i < max_posts && (
                 <div id={`panel_${i}`} className='panel'>
-                  <div>
+                  <div className=''>
                     <div className='title'>
                       <h1>{post.title}</h1>
                     </div>

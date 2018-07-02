@@ -34,6 +34,7 @@ const handler = async event => {
         RETURNING id, roles
       `, [event.body.email.toLowerCase (), bcrypt.hashSync (event.body.pass, cfg.rounds), event.body.user])
     await client.query ('COMMIT')
+    cfg.local || await client.end ()
     return format ({
       headers: {
         'Access-Control-Allow-Origin': '*', // Required for CORS support to work

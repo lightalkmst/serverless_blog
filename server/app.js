@@ -79,7 +79,7 @@ const adapter = handler => async (req, res) => {
     queryStringParameters: req.query,
     headers: {
       Cookie: (
-        F.p (req.cookies) (
+        F.p (req.cookies || {}) (
           D.pairs
           >> A.map (([k, v]) => `${k}=${v}`)
           >> S.join (';')
@@ -87,7 +87,6 @@ const adapter = handler => async (req, res) => {
       ),
     },
   })
-  console.log (JSON.stringify (resp))
   F.p (resp.headers['Set-Cookie'] || '') (
     S.split (';')
     >> A.filter (F.id)
@@ -100,6 +99,7 @@ const adapter = handler => async (req, res) => {
 
 const methods = {get, post, put, del}
 
+// dynamically add serverless handlers
 const serverless_path = 'serverless/src'
 F.p (serverless_path) (
   fs.readdirSync
