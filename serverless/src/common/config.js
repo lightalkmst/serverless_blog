@@ -6,4 +6,5 @@ module.exports = {
   port: 5432,
   rounds: 10,
   salt: 'banananutbread',
+  session_duration: 600,
 }

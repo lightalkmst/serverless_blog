@@ -15,23 +15,31 @@ const client = new Client ({
 
 const get_creds = async user_id =>
   (await client.query (`
-    SELECT password, roles
-    FROM users
+    SELECT pass, roles
+    FROM blog.users
     WHERE id = $1::INTEGER
-  `, [~~cookies.user_id]))[0]
+  `, [user_id])).rows[0]
 
-const authenticate = cookies => password =>
-  cookies.user_id && parseInt (cookies.user_id)
-  && cookies.timestamp && parseInt (cookies.timestamp)
-  && password
-  && bcrypt.compareSync (`${cookies.user_id % 1000}${cookies.timestamp % 1000}${password}`, cookies.session_token)
+const generate_base = user_id => timestamp => password => `${user_id % 1000000000}${timestamp % 1000}${password}`
 
-const generate_token = user_id => password => `session=${bcrypt.hashSync (`${user_id % 1000}${new Date ().getTime () % 1000}${password}`, cfg.rounds)}`
+const authenticate = user_id => timestamp => password => token =>
+  bcrypt.compareSync (generate_base (user_id) (timestamp) (password), token)
+
+const generate_cookie = user_id => password => {
+  const timestamp = new Date ().getTime ()
+  const token = bcrypt.hashSync (generate_base (user_id) (timestamp) (password), cfg.rounds)
+  return `session=${token}-${user_id}-${timestamp}; Max-Age=${cfg.session_duration}`
+}
 
 const format = args => ({
   isBase64Encoded: false,
   statusCode: 200,
-  headers: args.headers || {},
+  headers: {
+    ...(args.headers || {}),
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+  },
   body: JSON.stringify (args.body),
   error: args.error,
 })
@@ -42,52 +50,43 @@ const format = args => ({
 //   session_token
 // }
 const query = query => pre => post => async event => {
-  // try {
-    // authenticate
-    //   get user id, timestamp, and token from cookie
-    //   query db for password hash
-    //   authenticated if matched
-    const cookies = {}
-    ;(event.headers.Cookie || '').split (';')
-      .filter (x => x)
-      .map (x => x.split ('='))
-      .forEach (([k, v]) => cookies[k] = v)
-    const {password, roles} = cookies.user_id && parseInt (cookies.user_id) ? get_creds (cookies.user_id) || {} : {}
-    const auth = authenticate (cookies) (password)
-    // transact
-    //   db calls for the operation
-    const req = {
-      text: query,
-      values: pre (auth && cookies.user_id) (event),
-    }
-    const res = (await client.query (req)).rows
-    cfg.local || await client.end ()
-    // refresh session token if authenticated
-    //   generate new timestamp and token
-    return format ({
-      headers: (
-        auth && {
-          'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-          'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
-          'Set-Cookie': generate_token (cookies.user_id) (password),
-        }
-      ),
-      body: {
-        auth,
-        response: post (auth && cookies.user_id) (res),
-      },
-    })
-  // }
-  // catch (e) {
-  //   return format ({error: 'unknown'})
-  // }
+  // authenticate
+  //   get user id, timestamp, and token from cookie
+  //   query db for password hash
+  //   authenticated if matched
+  const [, token, user_id, timestamp] = /^session=(.*)-(.*)-(.*)$/.exec (event.headers.Cookie || '') || []
+  const {pass, roles} = user_id && await get_creds (user_id) || {}
+  const auth = token && user_id && timestamp && pass && authenticate (user_id) (timestamp) (pass) (token)
+  // transact
+  //   db calls for the operation
+  const req = {
+    text: query,
+    values: pre (auth && user_id || -1) (event),
+  }
+  const res = (await client.query (req)).rows
+  cfg.local || await client.end ()
+  // refresh session token if authenticated
+  //   generate new timestamp and token
+  return format ({
+    headers: (
+      auth && {
+        'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+        'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
+        'Set-Cookie': generate_cookie (user_id) (pass),
+      }
+    ),
+    body: {
+      auth,
+      response: post (auth && user_id || -1) (res),
+    },
+  })
 }
 
 module.exports = {
   id: () => x => x,
   query,
   authenticate,
-  generate_token,
+  generate_cookie,
   format,
   client,
 }

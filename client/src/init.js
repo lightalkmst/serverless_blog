@@ -43,3 +43,5 @@ import {} from './styles/header.css'
 import {} from './styles/recent.css'
 import {} from './styles/article.css'
 import {} from './styles/user.css'
+
+document.cookie = 'session=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'

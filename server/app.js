@@ -87,12 +87,16 @@ const adapter = handler => async (req, res) => {
       ),
     },
   })
-  F.p (resp.headers['Set-Cookie'] || '') (
-    S.split (';')
-    >> A.filter (F.id)
-    >> A.map (S.split ('='))
-    >> A.iter (([k, v]) => res.cookie (k, v))
-  )
+  if (resp.headers['Set-Cookie']) {
+    const match = /^session=(.*); Max-Age=(.*)$/.exec (resp.headers['Set-Cookie'])
+    res.cookie ('session', match[1], {maxAge: match[2]})
+  }
+  D.iterk (k => v => res.setHeader (k, v)) ({
+    ...resp.headers,
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+  })
   res.json (resp.body)
     .end ()
 }

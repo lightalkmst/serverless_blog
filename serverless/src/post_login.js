@@ -1,6 +1,6 @@
 const bcrypt = require ('bcryptjs')
 
-const {client, authenticate, generate_token, format} = require ('./common/crud')
+const {client, authenticate, generate_cookie, format} = require ('./common/crud')
 const cfg = require ('./common/config')
 
 const handler = async event => {
@@ -18,7 +18,7 @@ const handler = async event => {
       headers: {
         'Access-Control-Allow-Origin': '*', // Required for CORS support to work
         'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
-        'Set-Cookie': generate_token (resp.rows[0].id) (event.body.pass),
+        'Set-Cookie': generate_cookie (resp.rows[0].id) (resp.rows[0].pass),
       },
       body: {
         auth: true,
