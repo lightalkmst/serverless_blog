@@ -1,7 +1,7 @@
 const crud = require ('./common/crud')
 
 const handler = crud.query (`
-  SELECT id, title, summary, created, updated, tags
+  SELECT id, title, summary, created, updated, tags, published
   FROM blog.posts
   WHERE published OR user_id = $1::INTEGER
   LIMIT 15

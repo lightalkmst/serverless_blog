@@ -49,5 +49,20 @@ export default sources => {
         profile_http$,
       ])
     ),
+    user_id$: (
+      xs.merge (...[
+        xs.merge (
+          ...A.map (x => HTTP.select (x).flatten ()) ([
+            'post_account',
+            'post_login',
+          ])
+        )
+          .map (HTTP_resp)
+          .map (D.get ('id')),
+        HTTP.select ('post_logout').flatten ()
+          .mapTo (-1),
+      ])
+        .startWith (-1)
+    ),
   }
 }

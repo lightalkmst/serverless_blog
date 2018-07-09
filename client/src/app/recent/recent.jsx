@@ -36,11 +36,14 @@ export default sources => {
                       <h1>{post.title}</h1>
                     </div>
                     <div className='info'>
-                      {`Posted: ${time_string (post.created)}`}
+                      {
+                        post.published
+                        ? `Posted: ${time_string (post.created)}`
+                        : `This article has not been published yet`
+                      }
                       {post.updated && `Updated: ${time_string (post.updated)}`}
                       <br />
                       {`Tags: ${post.tags}`}
-                      {/* TODO: published note for super users for their own posts */}
                     </div>
                     <div className='summary'>{post.summary}</div>
                   </div>
@@ -52,8 +55,8 @@ export default sources => {
       ))
     ),
     HTTP: (
-      navigation$.filter (F['='] ('home'))
-        .startWith ('home')
+      navigation$.filter (F['='] ('recent'))
+        .startWith ('recent')
         .map (http_requests.get_posts ({}))
     ),
     post_id$: (

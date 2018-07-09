@@ -11,18 +11,27 @@ const handler = async event => {
       WHERE email = $1::TEXT
     `, [event.body.email.toLowerCase ()])
   cfg.local || await client.end ()
+  const user = resp.rows[0]
   return format (
-    !resp.rows.length || !bcrypt.compareSync (event.body.pass, resp.rows[0].pass)
-    ? {body: {error: 'email and password combination not found'}}
+    !user || !bcrypt.compareSync (event.body.pass, user.pass)
+    ? {
+      body: {
+        error: 'email and password combination not found',
+        response: {},
+      },
+    }
     : {
       headers: {
         'Access-Control-Allow-Origin': '*', // Required for CORS support to work
         'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
-        'Set-Cookie': generate_cookie (resp.rows[0].id) (resp.rows[0].pass),
+        'Set-Cookie': generate_cookie (user.id) (user.pass),
       },
       body: {
         auth: true,
-        response: resp.rows[0].roles,
+        response: {
+          ...user,
+          pass: undefined,
+        },
       },
     }
   )

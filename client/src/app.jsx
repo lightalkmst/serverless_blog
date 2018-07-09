@@ -12,6 +12,12 @@ export default sources => {
   const {DOM, HTTP} = sources
 
   const {
+    DOM: account_dom$,
+    HTTP: account_http$,
+    user_id$,
+  } = account (sources)
+
+  const {
     DOM: nav_bar_dom$,
     navigation$,
   } = nav_bar (sources)
@@ -37,27 +43,20 @@ export default sources => {
   } = article ({
     ...sources,
     post_id$,
+    user_id$,
   })
-
-  const {
-    DOM: account_dom$,
-    HTTP: account_http$,
-  } = account (sources)
 
   const page$ =
     xs.merge (...[
-      // navigation$,
-      // redirect user to login if session times out
       xs.merge (...[
         navigation$,
-        xs.merge (...[
-          HTTP.select ().flatten ()
-        ])
+        // redirect user to login if session times out
+        HTTP.select ().flatten ()
           .map (D.get ('authenticated'))
           .fold ((a, h) => [h, a[0] && !h], [false, false])
           .map (A.get (1))
           .filter (F.id)
-          .mapTo ('login')
+          .mapTo ('login'),
       ]),
       post_select$,
     ])
@@ -68,6 +67,7 @@ export default sources => {
         page$,
         nav_bar_dom$,
         header_dom$,
+
         recent_dom$,
         article_dom$,
         account_dom$,

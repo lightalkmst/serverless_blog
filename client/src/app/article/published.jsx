@@ -26,29 +26,45 @@ export default sources => {
     HTTP,
     post$,
     post_id$,
+    user_id$,
   } = sources
 
   return {
     DOM: (
-      post$.map (post => (
-        <div className='article'>
-          <div className='article_title text_hover'>
-            {post.title}
+      xs.combine (...[
+        post$,
+        user_id$,
+      ])
+        .map (([
+          post,
+          user_id,
+        ]) => (
+          <div className='article'>
+            {user_id == post.user_id && <button id='article_edit'>Edit</button>}
+            <div className='article_title text_hover'>
+              {post.title}
+            </div>
+            <div className='article_data text_hover'>
+              {`Written by ${post.user_id} on ${time_string (post.created)}`}
+              {post.updated && `Last updated on ${time_string (post.updated)}`}
+            </div>
+            <br />
+            <div className='article_body'>
+              {post_to_dom (post.post)}
+            </div>
           </div>
-          <div className='article_data text_hover'>
-            {`Written by ${post.user_id} on ${time_string (post.created)}`}
-            {post.updated && `Last updated on ${time_string (post.updated)}`}
-          </div>
-          <br />
-          <div className='article_body'>
-            {post_to_dom (post.post)}
-          </div>
-        </div>
       ))
     ),
     HTTP: (
       post_id$.filter (F.id)
         .map (id => http_requests.get_post ({id}) ())
+    ),
+    editing$: (
+      xs.merge (...[
+        post$.mapTo (false),
+        DOM.select ('#article_edit').events ('click')
+          .mapTo (true)
+      ])
     ),
   }
 }

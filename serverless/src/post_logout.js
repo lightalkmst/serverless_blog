@@ -9,7 +9,7 @@ const handler = async event => {
     headers: {
       'Access-Control-Allow-Origin': '*', // Required for CORS support to work
       'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
-      'Set-Cookie': 'session=',
+      'Set-Cookie': 'session=; Max-Age=0',
     },
     body: {
       auth: false,

@@ -11,6 +11,7 @@ export default sources => {
     DOM,
     HTTP,
     post_id$,
+    user_id$,
   } = sources
 
   const post$ =
@@ -45,20 +46,23 @@ export default sources => {
   const {
     DOM: published_dom$,
     HTTP: published_http$,
+    editing$,
   } = published ({
     ...sources,
     post$,
+    user_id$,
   })
 
   return {
     DOM: (
       xs.combine (...[
         post$,
+        editing$,
         drafting_dom$,
         published_dom$,
       ])
-        .map (([post, drafting_dom, published_dom]) =>
-          post.published
+        .map (([post, editing, drafting_dom, published_dom]) =>
+          post.published && !editing
           ? published_dom
           : drafting_dom
       )
