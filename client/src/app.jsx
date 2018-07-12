@@ -5,6 +5,7 @@ import init from './init'
 import account from './app/user/account'
 import nav_bar from './app/nav_bar/nav_bar'
 import header from './app/header/header'
+import home from './app/home/home'
 import recent from './app/recent/recent'
 import article from './app/article/article'
 
@@ -15,11 +16,12 @@ export default sources => {
     DOM: account_dom$,
     HTTP: account_http$,
     user_id$,
+    navigation$: account_navigation$,
   } = account (sources)
 
   const {
     DOM: nav_bar_dom$,
-    navigation$,
+    navigation$: nav_bar_navigation$,
   } = nav_bar (sources)
 
   // TODO: search bar
@@ -28,14 +30,30 @@ export default sources => {
   } = header (sources)
 
   const {
+    DOM: home_dom$,
+    HTTP: home_http$,
+    post_id$: home_post_id$,
+    navigation$: home_navigation$,
+  } = home ({
+    ...sources,
+    navigation$: nav_bar_navigation$,
+  })
+
+  const {
     DOM: recent_dom$,
     HTTP: recent_http$,
-    post_id$,
-    post_select$,
+    post_id$: recent_post_id$,
+    navigation$: recent_navigation$,
   } = recent ({
     ...sources,
-    navigation$,
+    navigation$: nav_bar_navigation$,
   })
+
+  const post_id$ =
+    xs.merge (...[
+      home_post_id$,
+      recent_post_id$,
+    ])
 
   const {
     DOM: article_dom$,
@@ -46,45 +64,40 @@ export default sources => {
     user_id$,
   })
 
-  const page$ =
+  const navigation$ =
     xs.merge (...[
-      xs.merge (...[
-        navigation$,
-        // redirect user to login if session times out
-        HTTP.select ().flatten ()
-          .map (D.get ('authenticated'))
-          .fold ((a, h) => [h, a[0] && !h], [false, false])
-          .map (A.get (1))
-          .filter (F.id)
-          .mapTo ('login'),
-      ]),
-      post_select$,
+      account_navigation$,
+      nav_bar_navigation$,
+      home_navigation$,
+      recent_navigation$,
     ])
 
   return {
     DOM: (
       xs.combine (...[
-        page$,
+        navigation$,
         nav_bar_dom$,
         header_dom$,
-
+        home_dom$,
         recent_dom$,
         article_dom$,
         account_dom$,
       ])
         .map (([
-          page,
+          navigation,
           nav_bar_dom,
           header_dom,
+          home_dom,
           recent_dom,
           article_dom,
           account_dom,
         ]) => {
-          var selected_tab_dom = {
+          const selected_tab_dom = {
+            home_dom,
             recent_dom,
             article_dom,
             account_dom,
-          }[`${page}_dom`]
+          }[`${navigation}_dom`]
 
           return (
             <div>
@@ -101,6 +114,7 @@ export default sources => {
     ),
     HTTP: (
       xs.merge (...[
+        home_http$,
         recent_http$,
         article_http$,
         account_http$,

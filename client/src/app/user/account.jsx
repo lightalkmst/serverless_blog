@@ -64,5 +64,14 @@ export default sources => {
       ])
         .startWith (-1)
     ),
+    navigation$: (
+      // redirect user to login if session times out
+      HTTP.select ().flatten ()
+        .map (D.get ('authenticated'))
+        .fold ((a, h) => [h, a[0] && !h], [false, false])
+        .map (A.get (1))
+        .filter (F.id)
+        .mapTo ('login')
+    ),
   }
 }

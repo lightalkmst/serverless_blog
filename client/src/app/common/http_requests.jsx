@@ -23,6 +23,8 @@ export default {
   del_post: del ('post') ('del_post'),
   post_post: post ('post') ('post_post'),
 
+  get_featured: get ('featured') ('get_featured'),
+
   post_account: post ('account') ('post_account'),
 
   post_login: post ('login') ('post_login'),

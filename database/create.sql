@@ -42,3 +42,21 @@ CREATE TABLE IF NOT EXISTS blog.messages (
   created TIMESTAMP,
   updated TIMESTAMP
 );
+
+-- TBD: tentative
+CREATE TABLE IF NOT EXISTS blog.announcement (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES blog.users(id),
+  title TEXT,
+  summary TEXT,
+  created TIMESTAMP,
+  updated TIMESTAMP,
+  tags TEXT,
+  published BOOLEAN,
+  announcement TEXT
+);
+
+CREATE TABLE IF NOT EXISTS blog.featured (
+  id INTEGER,
+  post_id INTEGER REFERENCES blog.posts(id)
+);

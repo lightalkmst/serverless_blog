@@ -11,13 +11,13 @@ export default sources => {
   return {
     DOM: (
       xs.of (
-        <div id='login' className=''>
+        <div id='login' className='padded'>
           <div className='panel'>
             <div className=''>
               <div className='title'>
                 <h1>{'Login'}</h1>
               </div>
-              <div className='center padded'>
+              <div className='center'>
                 {'Password restrictions and stuff'}
                 <br />
                 <input id='login_email' placeholder='Email'></input>
@@ -34,7 +34,7 @@ export default sources => {
               <div className='title'>
                 <h1>{'Create an account'}</h1>
               </div>
-              <div className='center padded'>
+              <div className='center'>
                 <input id='create_email' placeholder='Email'></input>
                 <br />
                 <input id='create_pass' placeholder='Password'></input>

@@ -13,20 +13,20 @@ export default sources => {
     navigation$,
   } = sources
 
-  var posts$ =
+  const posts$ =
     HTTP.select ('get_posts').flatten ()
       .map (HTTP_resp)
       .map (A.sort (x => y => new Date (y.timestamp) - new Date (x.timestamp)))
 
-  var post_select$ =
+  const post_select$ =
     xs.merge (...A.map (i =>
-        DOM.select (`#recent #panel_${i} div`).events ('click').mapTo (i)
+      DOM.select (`#recent #panel_${i} div`).events ('click').mapTo (i)
     ) (A.range (0) (max_posts - 1)))
 
   return {
     DOM: (
       posts$.map (posts => (
-        <div id='recent' className='recent_grid'>
+        <div id='recent' className='recent_grid padded'>
           {
             A.mapi (i => post =>
               i < max_posts && (
@@ -53,11 +53,11 @@ export default sources => {
           }
         </div>
       ))
+        .startWith (<div />)
     ),
     HTTP: (
       navigation$.filter (F['='] ('recent'))
-        .startWith ('recent')
-        .map (http_requests.get_posts ({}))
+        .mapTo (http_requests.get_posts ({}) ())
     ),
     post_id$: (
       xs.combine (...[
@@ -66,6 +66,6 @@ export default sources => {
       ])
         .map (([i, posts]) => posts[i].id)
     ),
-    post_select$: post_select$.mapTo ('article'),
+    navigation$: post_select$.mapTo ('article'),
   }
 }

@@ -13,7 +13,7 @@ export default sources => {
     navigation$,
   } = sources
 
-  const featured_posts$ =
+  const posts$ =
     HTTP.select ('get_featured').flatten ()
       .map (HTTP_resp)
       // .map (A.sort (x => y => new Date (y.timestamp) - new Date (x.timestamp)))
@@ -59,7 +59,7 @@ export default sources => {
         .startWith (<div />)
     ),
     HTTP: (
-      navigation$.filter (F['='] ('home'))
+      navigation$.filter (F['='] ('archive'))
         .mapTo (http_requests.get_featured ({}) ())
     ),
     post_id$: (
