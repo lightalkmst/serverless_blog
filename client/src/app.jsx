@@ -7,6 +7,7 @@ import nav_bar from './app/nav_bar/nav_bar'
 import header from './app/header/header'
 import home from './app/home/home'
 import recent from './app/recent/recent'
+import archive from './app/archive/archive'
 import article from './app/article/article'
 
 export default sources => {
@@ -24,6 +25,13 @@ export default sources => {
     navigation$: nav_bar_navigation$,
   } = nav_bar (sources)
 
+  const navigation$ =
+    xs.merge (...[
+      account_navigation$,
+      nav_bar_navigation$,
+    ])
+      .startWith ('home')
+
   // TODO: search bar
   const {
     DOM: header_dom$,
@@ -32,45 +40,29 @@ export default sources => {
   const {
     DOM: home_dom$,
     HTTP: home_http$,
-    post_id$: home_post_id$,
-    navigation$: home_navigation$,
   } = home ({
     ...sources,
-    navigation$: nav_bar_navigation$,
+    navigation$,
+    user_id$,
   })
 
   const {
     DOM: recent_dom$,
     HTTP: recent_http$,
-    post_id$: recent_post_id$,
-    navigation$: recent_navigation$,
   } = recent ({
     ...sources,
-    navigation$: nav_bar_navigation$,
-  })
-
-  const post_id$ =
-    xs.merge (...[
-      home_post_id$,
-      recent_post_id$,
-    ])
-
-  const {
-    DOM: article_dom$,
-    HTTP: article_http$,
-  } = article ({
-    ...sources,
-    post_id$,
+    navigation$,
     user_id$,
   })
 
-  const navigation$ =
-    xs.merge (...[
-      account_navigation$,
-      nav_bar_navigation$,
-      home_navigation$,
-      recent_navigation$,
-    ])
+  const {
+    DOM: archive_dom$,
+    HTTP: archive_http$,
+  } = archive ({
+    ...sources,
+    navigation$,
+    user_id$,
+  })
 
   return {
     DOM: (
@@ -79,9 +71,9 @@ export default sources => {
         nav_bar_dom$,
         header_dom$,
         home_dom$,
-        recent_dom$,
-        article_dom$,
-        account_dom$,
+        recent_dom$.startWith (<div />),
+        archive_dom$.startWith (<div />),
+        account_dom$.startWith (<div />),
       ])
         .map (([
           navigation,
@@ -89,13 +81,13 @@ export default sources => {
           header_dom,
           home_dom,
           recent_dom,
-          article_dom,
+          archive_dom,
           account_dom,
         ]) => {
           const selected_tab_dom = {
             home_dom,
             recent_dom,
-            article_dom,
+            archive_dom,
             account_dom,
           }[`${navigation}_dom`]
 
@@ -116,7 +108,7 @@ export default sources => {
       xs.merge (...[
         home_http$,
         recent_http$,
-        article_http$,
+        archive_http$,
         account_http$,
       ])
     ),

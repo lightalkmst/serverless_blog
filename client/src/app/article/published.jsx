@@ -39,7 +39,7 @@ export default sources => {
           post,
           user_id,
         ]) => (
-          <div className='article'>
+          <div id='' className=''>
             {user_id == post.user_id && <button id='article_edit'>Edit</button>}
             <div className='article_title text_hover'>
               {post.title}

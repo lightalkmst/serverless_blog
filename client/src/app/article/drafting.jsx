@@ -36,7 +36,7 @@ export default sources => {
         summary: summary.target.value,
         article: article.target.value,
       }))
-      .map ((body) => http_requests.post_post () ({...body, published}))
+      .map (body => http_requests.post_post () ({...body, published}))
 
   return {
     DOM: (

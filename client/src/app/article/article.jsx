@@ -61,11 +61,15 @@ export default sources => {
         drafting_dom$,
         published_dom$,
       ])
-        .map (([post, editing, drafting_dom, published_dom]) =>
-          post.published && !editing
-          ? published_dom
-          : drafting_dom
-      )
+        .map (([post, editing, drafting_dom, published_dom]) => (
+          <div id='article' className='padded'>
+            {
+              post.published && !editing
+              ? published_dom
+              : drafting_dom
+            }
+          </div>
+      ))
         .startWith (null)
     ),
     HTTP: (

@@ -1,74 +1,72 @@
 import xs from 'xstream'
+import sampleCombine from 'xstream/extra/sampleCombine'
 
 import init from '../../init'
 
 import http_requests from '../common/http_requests'
+import article from '../article/article'
 
-const max_posts = 3
+const short_time_string = timestamp => {
+  const date = new Date (timestamp)
+  return `${date.getMonth () + 1}/${date.getDate ()}/${date.getFullYear ()}`
+}
 
 export default sources => {
   const {
     DOM,
     HTTP,
     navigation$,
+    user_id$,
   } = sources
 
   const posts$ =
-    HTTP.select ('get_featured').flatten ()
+    HTTP.select ('get_posts').flatten ()
       .map (HTTP_resp)
-      // .map (A.sort (x => y => new Date (y.timestamp) - new Date (x.timestamp)))
+      .map (A.sort (x => y => new Date (y.timestamp) - new Date (x.timestamp)))
 
   const post_select$ =
-    xs.merge (...A.map (i =>
-      DOM.select (`#featured #panel_${i} div`).events ('click').mapTo (i)
-    ) (A.range (0) (max_posts - 1)))
+    DOM.select (`#archive div`).events ('click')
+      .map (D.get ('target'))
+      .map (D.get ('id'))
+      .map (S.match (/archive_(.*)/))
+      .map (A.get (1))
+
+  const post_id$ =
+    post_select$.compose (sampleCombine (posts$))
+      .map (([i, posts]) => posts[i].id)
+
+  const {
+    DOM: article_dom$,
+    HTTP: article_http$,
+  } = article ({
+    ...sources,
+    post_id$,
+    user_id$,
+  })
 
   return {
-    // TODO: everything
     DOM: (
-      featured_posts$.map (featured_posts => (
-        <div id='home' className='home padded'>
-          <div id='featured' className='featured_grid'>
+      xs.merge (...[
+        posts$.map (posts => (
+          <div id='archive' className='padded'>
             {
-              A.mapi (i => post =>
-                i < max_posts && (
-                  <div id={`panel_${i}`} className='panel'>
-                    <div className=''>
-                      <div className='title'>
-                        <h1>{post.title}</h1>
-                      </div>
-                      <div className='info'>
-                        {
-                          post.published
-                          ? `Posted: ${time_string (post.created)}`
-                          : `This article has not been published yet`
-                        }
-                        {post.updated && `Updated: ${time_string (post.updated)}`}
-                        <br />
-                        {`Tags: ${post.tags}`}
-                      </div>
-                      <div className='summary'>{post.summary}</div>
-                    </div>
-                  </div>
-                )
-              ) (featured_posts)
+              A.mapi (i => post => (
+                <div id={`archive_${i}`} className='bordered'>
+                {`${short_time_string (post.created)} : ${post.title}`}
+                </div>
+              )) (posts)
             }
           </div>
-        </div>
-      ))
-        .startWith (<div />)
+        )),
+        article_dom$,
+      ])
     ),
     HTTP: (
-      navigation$.filter (F['='] ('archive'))
-        .mapTo (http_requests.get_featured ({}) ())
-    ),
-    post_id$: (
-      xs.combine (...[
-        post_select$,
-        featured_posts$,
+      xs.merge (...[
+        navigation$.filter (F['='] ('archive'))
+          .mapTo (http_requests.get_posts ({}) ()),
+        article_http$,
       ])
-        .map (([i, posts]) => posts[i].id)
     ),
-    navigation$: post_select$.mapTo ('article'),
   }
 }

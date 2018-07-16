@@ -2,10 +2,7 @@ TODO: crud queries
 
 features to have (TODO: order of importance):
   necessary:
-    view
-    navigation
-    posts
-      search
+    search
     archive
     post formatting
       images
@@ -19,11 +16,6 @@ features to have (TODO: order of importance):
       search
       folding
     email subscription
-    login/authentication
-    user profile
-      username
-      password
-      email
   additional:
     direct messaging
     meta description
