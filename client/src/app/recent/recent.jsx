@@ -4,7 +4,7 @@ import sampleCombine from 'xstream/extra/sampleCombine'
 import init from '../../init'
 
 import http_requests from '../common/http_requests'
-import article from '../article/article'
+import article from '../common/article/article'
 
 const max_posts = 15
 

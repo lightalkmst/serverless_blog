@@ -73,5 +73,21 @@ export default sources => {
         .filter (F.id)
         .mapTo ('login')
     ),
+    roles$: (
+      xs.merge (...[
+        xs.merge (
+          ...A.map (x => HTTP.select (x).flatten ()) ([
+            'post_account',
+            'post_login',
+          ])
+        )
+          .map (HTTP_resp)
+          .map (D.get ('roles'))
+          .map (S.split (', ')),
+        HTTP.select ('post_logout').flatten ()
+          .mapTo ([]),
+      ])
+        .startWith ([])
+    ),
   }
 }

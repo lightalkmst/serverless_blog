@@ -2,9 +2,9 @@ import xs from 'xstream'
 import delay from 'xstream/extra/delay'
 import sampleCombine from 'xstream/extra/sampleCombine'
 
-import init from '../../init'
+import init from '../../../init'
 
-import http_requests from '../common/http_requests'
+import http_requests from '../http_requests'
 
 // TODO: figure out how to import xstream extra methods
 export default sources => {

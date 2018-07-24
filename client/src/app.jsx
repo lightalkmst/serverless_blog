@@ -8,7 +8,6 @@ import header from './app/header/header'
 import home from './app/home/home'
 import recent from './app/recent/recent'
 import archive from './app/archive/archive'
-import article from './app/article/article'
 
 export default sources => {
   const {DOM, HTTP} = sources
@@ -18,6 +17,7 @@ export default sources => {
     HTTP: account_http$,
     user_id$,
     navigation$: account_navigation$,
+    roles$,
   } = account (sources)
 
   const {
@@ -44,6 +44,7 @@ export default sources => {
     ...sources,
     navigation$,
     user_id$,
+    roles$,
   })
 
   const {

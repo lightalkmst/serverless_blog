@@ -1,8 +1,8 @@
 import xs from 'xstream'
 
-import init from '../../init'
+import init from '../../../init'
 
-import http_requests from '../common/http_requests'
+import http_requests from '../http_requests'
 import published from './published'
 import drafting from './drafting'
 

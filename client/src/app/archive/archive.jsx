@@ -4,7 +4,7 @@ import sampleCombine from 'xstream/extra/sampleCombine'
 import init from '../../init'
 
 import http_requests from '../common/http_requests'
-import article from '../article/article'
+import article from '../common/article/article'
 
 const short_time_string = timestamp => {
   const date = new Date (timestamp)
@@ -22,7 +22,8 @@ export default sources => {
   const posts$ =
     HTTP.select ('get_posts').flatten ()
       .map (HTTP_resp)
-      .map (A.sort (x => y => new Date (y.timestamp) - new Date (x.timestamp)))
+      // reverse chronological order
+      .map (A.sort (x => y => new Date (x.timestamp) - new Date (y.timestamp)))
 
   const post_select$ =
     DOM.select (`#archive div`).events ('click')

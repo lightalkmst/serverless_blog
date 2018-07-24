@@ -1,9 +1,6 @@
-TODO: crud queries
-
 features to have (TODO: order of importance):
   necessary:
     search
-    archive
     post formatting
       images
       hyperlinks
