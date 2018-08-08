@@ -4,48 +4,55 @@ import sampleCombine from 'xstream/extra/sampleCombine'
 import init from '../../init'
 
 import http_requests from '../common/http_requests'
-import home_admin from './home_admin'
-import home_user from './home_user'
+import article from '../common/article/article'
+import article_panels from '../common/article/panels'
+
+const max_posts = 3
 
 export default sources => {
   const {
     DOM,
     HTTP,
-    roles$,
+    navigation$,
   } = sources
 
-  const {
-    DOM: home_admin_dom$,
-    HTTP: home_admin_http$,
-  } = home_admin (sources)
+  const featured_posts$ =
+    HTTP.select ('get_featured').flatten ()
+      .map (HTTP_resp)
 
   const {
-    DOM: home_user_dom$,
-    HTTP: home_user_http$,
-  } = home_user (sources)
+    DOM: article_panels_dom$,
+    post_id$,
+  } = article_panels ({
+    ...sources,
+    posts$: featured_posts$,
+  })
+
+  const {
+    DOM: article_dom$,
+    HTTP: article_http$,
+  } = article ({
+    ...sources,
+    post_id$,
+  })
 
   return {
-    // TODO: everything
     DOM: (
-      xs.combine (...[
-        roles$,
-        home_admin_dom$,
-        home_user_dom$,
+      xs.merge (...[
+        article_panels_dom$,
+        article_dom$,
       ])
-        .map (([
-          roles,
-          home_admin_dom,
-          home_user_dom,
-        ]) =>
-          A.contains ('admin') (roles)
-          ? home_admin_dom
-          : home_user_dom
-      )
+        .map (articles_dom => (
+          <div id='home' className='padded'>
+            {articles_dom}
+          </div>
+        ))
     ),
     HTTP: (
       xs.merge (...[
-        home_admin_http$,
-        home_user_http$,
+        navigation$.filter (F['='] ('home'))
+          .mapTo (http_requests.get_featured ({}) ()),
+        article_http$,
       ])
     ),
   }

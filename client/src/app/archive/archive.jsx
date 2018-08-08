@@ -53,13 +53,17 @@ export default sources => {
             {
               A.mapi (i => post => (
                 <div id={`archive_${i}`} className='bordered'>
-                {`${short_time_string (post.created)} : ${post.title}`}
+                  {`${short_time_string (post.created)} : ${post.title}`}
                 </div>
               )) (posts)
             }
           </div>
         )),
-        article_dom$,
+        article_dom$.map (article_dom => (
+          <div id='archive' className='padded'>
+            {article_dom}
+          </div>
+        )),
       ])
     ),
     HTTP: (

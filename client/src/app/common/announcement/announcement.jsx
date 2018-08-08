@@ -10,20 +10,20 @@ export default sources => {
   const {
     DOM,
     HTTP,
-    post_id$,
+    announcement_id$,
     user_id$,
   } = sources
 
-  const post$ =
+  const announcement$ =
     xs.merge (...[
       xs.merge (...A.map (x => HTTP.select (x).flatten ()) ([
-        'get_post',
-        'post_post',
-        'del_post',
+        'get_announcement',
+        'post_announcement',
+        'del_announcement',
       ]))
         .map (HTTP_resp)
         .map (A.get (0)),
-      post_id$.filter (F.neg (F.id))
+      announcement_id$.filter (F.neg (F.id))
         .mapTo ({}),
     ])
 
@@ -32,11 +32,11 @@ export default sources => {
     HTTP: drafting_http$,
   } = drafting ({
     ...sources,
-    post$,
-    post_id$: (
+    announcement$,
+    announcement_id$: (
       xs.merge (...[
-        post_id$,
-        HTTP.select ('post_post').flatten ()
+        announcement_id$,
+        HTTP.select ('post_announcement').flatten ()
           .map (D.get ('body'))
           .map (D.get ('id')),
       ])
@@ -49,22 +49,22 @@ export default sources => {
     editing$,
   } = published ({
     ...sources,
-    post$,
+    announcement$,
     user_id$,
   })
 
   return {
     DOM: (
       xs.combine (...[
-        post$,
+        announcement$,
         editing$,
         drafting_dom$,
         published_dom$,
       ])
-        .map (([post, editing, drafting_dom, published_dom]) => (
-          <div id='article' className=''>
+        .map (([announcement, editing, drafting_dom, published_dom]) => (
+          <div id='article' className='padded'>
             {
-              post.published && !editing
+              announcement.published && !editing
               ? published_dom
               : drafting_dom
             }
