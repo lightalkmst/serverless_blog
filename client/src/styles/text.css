@@ -1,18 +1,18 @@
-.article {
+.text {
   padding: 24px;
 }
 
-.article_title {
+.text_title {
   text-align: center;
   font-size: 24px;
 }
 
-.article_data {
+.text_data {
   text-align: center;
   font-size: 14px;
 }
 
-.article_body {
+.text_body {
   font-size: 16px;
 }
 
@@ -38,7 +38,7 @@
   resize: vertical;
 }
 
-.draft textarea#draft_article {
+.draft textarea#draft_post {
   height: 128px;
   width: 100%;
   background-color: var(--gray1);

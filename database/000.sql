@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS blog.posts (
   updated TIMESTAMP,
   tags TEXT,
   published BOOLEAN,
-  post TEXT
+  body TEXT
 );
 
 CREATE TABLE IF NOT EXISTS blog.comments (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS blog.comments (
   post_id INTEGER REFERENCES blog.posts(id),
   user_id INTEGER REFERENCES blog.users(id),
   replied_comment_id INTEGER,
-  comment TEXT,
+  body TEXT,
   created TIMESTAMP,
   updated TIMESTAMP
 );
@@ -38,13 +38,12 @@ CREATE TABLE IF NOT EXISTS blog.messages (
   id SERIAL PRIMARY KEY,
   user_from_id INTEGER REFERENCES blog.users(id),
   user_to_id INTEGER REFERENCES blog.users(id),
-  message TEXT,
+  body TEXT,
   created TIMESTAMP,
   updated TIMESTAMP
 );
 
--- TBD: tentative
-CREATE TABLE IF NOT EXISTS blog.announcement (
+CREATE TABLE IF NOT EXISTS blog.announcements (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES blog.users(id),
   title TEXT,
@@ -53,7 +52,7 @@ CREATE TABLE IF NOT EXISTS blog.announcement (
   updated TIMESTAMP,
   tags TEXT,
   published BOOLEAN,
-  announcement TEXT
+  body TEXT
 );
 
 CREATE TABLE IF NOT EXISTS blog.featured (

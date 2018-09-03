@@ -4,10 +4,8 @@ import sampleCombine from 'xstream/extra/sampleCombine'
 import init from '../../init'
 
 import http_requests from '../common/http_requests'
-import article from '../common/article/article'
-import article_panels from '../common/article/panels'
-
-const max_posts = 3
+import panels from '../common/readable/panels'
+import readable from '../common/readable/readable'
 
 export default sources => {
   const {
@@ -16,43 +14,92 @@ export default sources => {
     navigation$,
   } = sources
 
-  const featured_posts$ =
-    HTTP.select ('get_featured').flatten ()
-      .map (HTTP_resp)
+  const announcement_options = {
+    type: 'announcement',
+    max_items: 1,
+  }
 
   const {
-    DOM: article_panels_dom$,
-    post_id$,
-  } = article_panels ({
+    DOM: announcement_panel_dom$,
+    item_id$: announcement_id$,
+  } = panels (announcement_options) ({
     ...sources,
-    posts$: featured_posts$,
+    items$: (
+      HTTP.select ('get_announcements').flatten ()
+        .map (HTTP_resp)
+        // .map (announcements => [announcements[0]])
+    ),
   })
 
   const {
-    DOM: article_dom$,
-    HTTP: article_http$,
-  } = article ({
+    DOM: announcement_dom$,
+    HTTP: announcement_http$,
+  } = readable (announcement_options) ({
     ...sources,
-    post_id$,
+    item_id$: announcement_id$,
+  })
+
+  const post_options = {
+    type: 'post',
+    max_items: 3,
+  }
+
+  const {
+    DOM: post_panels_dom$,
+    item_id$: post_id$,
+  } = panels (post_options) ({
+    ...sources,
+    items$: (
+      HTTP.select ('get_featured').flatten ()
+        .map (HTTP_resp)
+    ),
+  })
+
+  const {
+    DOM: post_dom$,
+    HTTP: post_http$,
+  } = readable (post_options) ({
+    ...sources,
+    item_id$: post_id$,
   })
 
   return {
     DOM: (
       xs.merge (...[
-        article_panels_dom$,
-        article_dom$,
-      ])
-        .map (articles_dom => (
+        xs.combine (...[
+          announcement_panel_dom$,
+          post_panels_dom$,
+        ])
+          .map (([
+            announcement_panel_dom,
+            post_panels_dom,
+          ]) => (
+            <div id='home' className='padded'>
+              {announcement_panel_dom}
+              <br />
+              {post_panels_dom}
+            </div>
+        )),
+        announcement_dom$.map (announcement_dom => (
           <div id='home' className='padded'>
-            {articles_dom}
+            {announcement_dom}
           </div>
-        ))
+        )),
+        post_dom$.map (post_dom => (
+          <div id='home' className='padded'>
+            {post_dom}
+          </div>
+        )),
+      ])
     ),
     HTTP: (
       xs.merge (...[
         navigation$.filter (F['='] ('home'))
+          .mapTo (http_requests.get_announcements ({}) ()),
+        navigation$.filter (F['='] ('home'))
           .mapTo (http_requests.get_featured ({}) ()),
-        article_http$,
+        announcement_http$,
+        post_http$,
       ])
     ),
   }

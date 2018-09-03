@@ -17,6 +17,12 @@ const http = method => path => category => query => send => ({
 const [get, post, del] = A.map (http) (['GET', 'POST', 'DELETE'])
 
 export default {
+  get_announcements: get ('announcements') ('get_announcements'),
+
+  get_announcement: get ('announcement') ('get_announcement'),
+  del_announcement: del ('announcement') ('del_announcement'),
+  post_announcement: post ('announcement') ('post_announcement'),
+
   get_posts: get ('posts') ('get_posts'),
 
   get_post: get ('post') ('get_post'),

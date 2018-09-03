@@ -5,8 +5,6 @@
 ////////////////
 
 const fs = require ('fs')
-
-// my libraries
 require ('green_curry') (['globalize', 'short F.c'])
 
 // config

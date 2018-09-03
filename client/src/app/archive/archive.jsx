@@ -4,7 +4,7 @@ import sampleCombine from 'xstream/extra/sampleCombine'
 import init from '../../init'
 
 import http_requests from '../common/http_requests'
-import article from '../common/article/article'
+import readable from '../common/readable/readable'
 
 const short_time_string = timestamp => {
   const date = new Date (timestamp)
@@ -36,12 +36,14 @@ export default sources => {
     post_select$.compose (sampleCombine (posts$))
       .map (([i, posts]) => posts[i].id)
 
+  const post_options = {type: 'post'}
+
   const {
-    DOM: article_dom$,
-    HTTP: article_http$,
-  } = article ({
+    DOM: post_dom$,
+    HTTP: post_http$,
+  } = readable (post_options) ({
     ...sources,
-    post_id$,
+    item_id$: post_id$,
     user_id$,
   })
 
@@ -59,9 +61,9 @@ export default sources => {
             }
           </div>
         )),
-        article_dom$.map (article_dom => (
+        post_dom$.map (post_dom => (
           <div id='archive' className='padded'>
-            {article_dom}
+            {post_dom}
           </div>
         )),
       ])
@@ -70,7 +72,7 @@ export default sources => {
       xs.merge (...[
         navigation$.filter (F['='] ('archive'))
           .mapTo (http_requests.get_posts ({}) ()),
-        article_http$,
+        post_http$,
       ])
     ),
   }

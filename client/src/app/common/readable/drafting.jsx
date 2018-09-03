@@ -6,56 +6,57 @@ import init from '../../../init'
 
 import http_requests from '../http_requests'
 
-// TODO: figure out how to import xstream extra methods
-export default sources => {
+export default options => sources => {
+  const {type} = options
+
   const {
     DOM,
     HTTP,
-    post$,
-    post_id$,
+    item$,
+    item_id$,
   } = sources
 
   const post_on_click = btn => published =>
     DOM.select (`#draft_${btn}`).events ('click')
       .compose (sampleCombine (
         xs.combine (...[
-          post_id$,
+          item_id$,
           ...A.map (x => DOM.select (`#draft_${x}`).events ('input')) ([
             'title',
             'tags',
             'summary',
-            'article',
+            'body',
           ])
         ])
       ))
       .map (A.get (1))
-      .map (([id, title, tags, summary, article]) => ({
+      .map (([id, title, tags, summary, body]) => ({
         id,
         title: title.target.value,
         tags: tags.target.value,
         summary: summary.target.value,
-        article: article.target.value,
+        body: body.target.value,
       }))
-      .map (body => http_requests.post_post () ({...body, published}))
+      .map (body => http_requests[`post_${type}`] () ({...body, published}))
 
   return {
     DOM: (
       xs.combine (...[
-        post$.startWith ({}),
+        item$.startWith ({}),
         xs.merge (...[
           // assume post was just a save since they'd be sent to the published view otherwise
-          HTTP.select ('post_post').flatten ().mapTo ([true, false]),
-          HTTP.select ('del_post').flatten ().mapTo ([false, true]),
+          HTTP.select (`post_${type}`).flatten ().mapTo ([true, false]),
+          HTTP.select (`del_${type}`).flatten ().mapTo ([false, true]),
           xs.merge (...[
-            HTTP.select ('post_post').flatten (),
-            HTTP.select ('del_post').flatten (),
+            HTTP.select (`post_${type}`).flatten (),
+            HTTP.select (`del_${type}`).flatten (),
           ])
             .mapTo ([false, false])
             .compose (delay (3000))
         ])
           .startWith ([false, false]),
       ])
-        .map (([post, [saved, deleted]]) =>
+        .map (([item, [saved, deleted]]) =>
           <div className='draft'>
             {'Title: '}
             <br />
@@ -69,9 +70,9 @@ export default sources => {
             <br />
             <textarea id='draft_summary'></textarea>
             <br />
-            {'Article: '}
+            {'Body: '}
             <br />
-            <textarea id='draft_article'></textarea>
+            <textarea id='draft_body'></textarea>
             <div>
               {saved && 'Successfully saved'}
               {deleted && 'Successfully deleted'}
@@ -90,10 +91,10 @@ export default sources => {
         post_on_click ('publish') (true),
         // delete
         DOM.select ('#draft_delete').events ('click')
-          .compose (sampleCombine (post_id$))
+          .compose (sampleCombine (item_id$))
           .map (A.get (1))
           .filter (F.id)
-          .map (id => http_requests.del_post ({id}) ()),
+          .map (id => http_requests[`del_${type}`] ({id}) ()),
       ])
     ),
   }
