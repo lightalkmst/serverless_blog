@@ -54,6 +54,7 @@ export default sources => {
     ...sources,
     navigation$,
     user_id$,
+    roles$,
   })
 
   const {
@@ -63,6 +64,7 @@ export default sources => {
     ...sources,
     navigation$,
     user_id$,
+    roles$,
   })
 
   return {

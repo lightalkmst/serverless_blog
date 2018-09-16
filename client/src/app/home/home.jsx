@@ -27,7 +27,6 @@ export default sources => {
     items$: (
       HTTP.select ('get_announcements').flatten ()
         .map (HTTP_resp)
-        // .map (announcements => [announcements[0]])
     ),
   })
 
@@ -75,7 +74,11 @@ export default sources => {
             post_panels_dom,
           ]) => (
             <div id='home' className='padded'>
+              <h1 className='text_title text_hover'>Announcement</h1>
+              <br />
               {announcement_panel_dom}
+              <br />
+              <h1 className='text_title text_hover'>Featured Posts</h1>
               <br />
               {post_panels_dom}
             </div>

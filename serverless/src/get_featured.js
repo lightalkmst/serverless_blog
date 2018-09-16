@@ -1,10 +1,10 @@
 const crud = require ('./common/crud')
 
 const handler = crud.query (`
-  SELECT id, title, summary, created, updated, tags, published
-  FROM blog.posts
+  SELECT posts.id, title, summary, created, updated, tags, published
+  FROM blog.featured featured RIGHT JOIN blog.posts posts
+  ON featured.id = posts.id
   WHERE published OR user_id = $1::INTEGER
-  LIMIT 15
 `) (user_id => () => [user_id]) (crud.id)
 
 exports && (exports.handler = handler)

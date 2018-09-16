@@ -23,17 +23,15 @@ export default options => sources => {
     xs.merge (...A.map (i =>
       DOM.select (`#${type}_${i}`).events ('click').mapTo (i)
     ) (A.range (0) (max_items - 1)))
-      .map (F.tap (F.log))
 
   const item_id$ =
     item_select$.compose (sampleCombine (items$))
       .map (([i, items]) => items[i].id)
-      .map (F.tap (F.log))
 
   return {
     DOM: (
       items$.map (items => (
-        <div id={`${type}s`} className='panel_grid'>
+        <div id={`${type}s`} className={`panel_grid_${max_items}`}>
           {
             A.mapi (i => item =>
               i < max_items && (

@@ -18,7 +18,6 @@ export default sources => {
       ]),
       DOM.select ('#logo_tab').events ('click').mapTo ('home'),
     ])
-      // TODO: handle query parameters to jump to posts
       .startWith ('home')
 
   const {DOM: blog_logo_dom$} = blog_logo (sources)

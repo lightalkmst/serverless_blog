@@ -30,6 +30,7 @@ export default {
   post_post: post ('post') ('post_post'),
 
   get_featured: get ('featured') ('get_featured'),
+  post_featured: post ('featured') ('post_featured'),
 
   post_account: post ('account') ('post_account'),
 

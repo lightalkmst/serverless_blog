@@ -1,3 +1,37 @@
+DROP SCHEMA IF EXISTS blog CASCADE;
+
+CREATE SCHEMA blog;
+
+CREATE TABLE IF NOT EXISTS blog.users (
+  id SERIAL PRIMARY KEY,
+  email TEXT UNIQUE,
+  pass TEXT,
+  name TEXT,
+  roles TEXT,
+  verified BOOLEAN,
+  created TIMESTAMP
+);
+INSERT INTO blog.users VALUES (
+  default,
+  'o@k.c',
+  '$2a$10$ee9TqxsLeABwU3v5018YXeTKqiM6dHYWGhmNpqDryhdjVYmz6D/H2',
+  'admin',
+  'admin, user',
+  TRUE,
+  LOCALTIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS blog.posts (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES blog.users(id),
+  title TEXT,
+  summary TEXT,
+  created TIMESTAMP,
+  updated TIMESTAMP,
+  tags TEXT,
+  published BOOLEAN,
+  body TEXT
+);
 INSERT INTO blog.posts VALUES (
   default,
   1,
@@ -31,3 +65,56 @@ INSERT INTO blog.posts VALUES (
 
   Pastrami spare ribs ground round short loin landjaeger cupim, drumstick kevin jowl ham ball tip pig. Meatloaf ham hock shankle pancetta. Picanha alcatra prosciutto filet mignon, shoulder shankle meatloaf beef ball tip cow hamburger pork chop bacon. Turkey tail andouille strip steak buffalo hamburger meatloaf, pancetta boudin kielbasa biltong chuck jerky shoulder.'
 );
+
+CREATE TABLE IF NOT EXISTS blog.comments (
+  id SERIAL PRIMARY KEY,
+  post_id INTEGER REFERENCES blog.posts(id),
+  user_id INTEGER REFERENCES blog.users(id),
+  replied_comment_id INTEGER,
+  body TEXT,
+  created TIMESTAMP,
+  updated TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS blog.messages (
+  id SERIAL PRIMARY KEY,
+  user_from_id INTEGER REFERENCES blog.users(id),
+  user_to_id INTEGER REFERENCES blog.users(id),
+  body TEXT,
+  created TIMESTAMP,
+  updated TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS blog.announcements (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES blog.users(id),
+  title TEXT,
+  summary TEXT,
+  created TIMESTAMP,
+  updated TIMESTAMP,
+  tags TEXT,
+  published BOOLEAN,
+  body TEXT
+);
+INSERT INTO blog.announcements VALUES (
+  default,
+  1,
+  'Spicy jalapeno bacon ipsum',
+  'Spicy jalapeno bacon ipsum dolor amet pork belly pork chop jerky frankfurter filet mignon pork loin chuck.',
+  LOCALTIMESTAMP,
+  NULL,
+  'spicy, meaty',
+  TRUE,
+  'Spicy jalapeno bacon ipsum dolor amet pork belly pork chop jerky frankfurter filet mignon pork loin chuck. Capicola pancetta turducken tri-tip swine burgdoggen sausage. Cupim jerky sausage sirloin bresaola leberkas porchetta beef ribs ham chicken flank meatloaf ribeye kevin. Pancetta meatball jowl cupim. Ground round strip steak frankfurter pork hamburger tail beef venison prosciutto corned beef boudin swine turkey jowl shank. Jowl swine ball tip sausage.'
+);
+
+CREATE TABLE IF NOT EXISTS blog.featured (
+  id INTEGER,
+  post_id INTEGER REFERENCES blog.posts(id)
+);
+INSERT INTO blog.featured
+VALUES (default, 1);
+INSERT INTO blog.featured
+VALUES (default, 1);
+INSERT INTO blog.featured
+VALUES (default, 1);

@@ -1,4 +1,5 @@
 import xs from 'xstream'
+import sampleCombine from 'xstream/extra/sampleCombine'
 
 import init from '../../../init'
 
@@ -32,6 +33,7 @@ export default options => sources => {
     item$,
     item_id$,
     user_id$,
+    roles$,
   } = sources
 
   return {
@@ -39,13 +41,32 @@ export default options => sources => {
       xs.combine (...[
         item$,
         user_id$,
+        roles$,
       ])
         .map (([
           item,
           user_id,
+          roles,
         ]) => (
           <div id='' className=''>
-            {user_id == item.user_id && <button id={`${type}_edit`}>Edit</button>}
+            <div className='right'>
+              {
+                type == 'post' && A.contains ('admin') (roles) && A.map (i =>
+                  <button id={`set_featured_${i}`}>
+                    {`Set Featured ${i + 1}`}
+                  </button>
+                ) (A.range (0) (2))
+              }
+              {(type == 'post' && A.contains ('admin') (roles) || user_id == item.user_id) && <br />}
+              {
+                user_id == item.user_id
+                && (
+                  <button id={`${type}_edit`}>
+                    Edit
+                  </button>
+                )
+              }
+            </div>
             <div className={'text_title text_hover'}>
               {item.title}
             </div>
@@ -61,8 +82,23 @@ export default options => sources => {
       ))
     ),
     HTTP: (
-      item_id$.filter (F.id)
-        .map (id => http_requests[`get_${type}`] ({id}) ())
+      xs.merge (...[
+        item_id$.filter (F.id)
+          .map (id => http_requests[`get_${type}`] ({id}) ()),
+        // setting as featured is only available for posts
+        ...(
+          type == 'post'
+          ? (
+            A.map (i =>
+              DOM.select (`#set_featured_${i}`).events ('click').mapTo (i)
+                .compose(sampleCombine(item_id$))
+                .map (F.tap (F.log))
+                .map (([id, item_id]) => http_requests.post_featured () ({id, post_id: item_id}))
+            ) (A.range (0) (2))
+          )
+          : []
+        )
+      ])
     ),
     editing$: (
       xs.merge (...[

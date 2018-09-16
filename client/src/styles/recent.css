@@ -1,7 +1,13 @@
-.panel_grid {
+.panel_grid_1 {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-column-gap: 12px;
+  grid-row-gap: 12px;
+}
+
+.panel_grid_3 {
   display: grid;
   grid-template-columns: 33% 33% 33%;
-  /* justify-content: space-around; */
   grid-column-gap: 12px;
   grid-row-gap: 12px;
 }

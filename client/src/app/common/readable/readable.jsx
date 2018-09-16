@@ -56,7 +56,6 @@ export default options => sources => {
 
   return {
     DOM: (
-      // xs.of (<div>{'asdf'}</div>)
       xs.combine (...[
         item$,
         editing$,
