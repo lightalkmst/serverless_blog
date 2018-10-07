@@ -32,7 +32,7 @@ const handler = async event => {
           LOCALTIMESTAMP
         )
         RETURNING id, roles
-      `, [event.body.email.toLowerCase (), bcrypt.hashSync (event.body.pass, cfg.rounds), event.body.user])
+      `, [event.body.email.toLowerCase (), bcrypt.hashSync (`${event.body.pass}${cfg.salt}`, cfg.rounds), event.body.user])
     await client.query ('COMMIT')
     cfg.local || await client.end ()
     return format ({
