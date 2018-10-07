@@ -1,3 +1,4 @@
+import isolate from '@cycle/isolate'
 import xs from 'xstream'
 
 import init from '../../../init'
@@ -6,7 +7,7 @@ import http_requests from '../http_requests'
 import published from './published'
 import drafting from './drafting'
 
-export default options => sources => {
+export default options => isolate (sources => {
   const {type} = options
 
   const {
@@ -37,10 +38,8 @@ export default options => sources => {
     item$,
     item_id$: (
       xs.merge (...[
+        item$.map (D.get ('id')),
         item_id$,
-        HTTP.select (`post_${type}`).flatten ()
-          .map (D.get ('body'))
-          .map (D.get ('id')),
       ])
     ),
   })
@@ -59,8 +58,8 @@ export default options => sources => {
       xs.combine (...[
         item$,
         editing$,
-        drafting_dom$,
-        published_dom$,
+        drafting_dom$.startWith (null),
+        published_dom$.startWith (null),
       ])
         .map (([item, editing, drafting_dom, published_dom]) => (
           <div id='item' className=''>
@@ -80,4 +79,4 @@ export default options => sources => {
       ])
     ),
   }
-}
+})

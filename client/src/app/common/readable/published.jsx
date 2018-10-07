@@ -1,3 +1,4 @@
+import isolate from '@cycle/isolate'
 import xs from 'xstream'
 import sampleCombine from 'xstream/extra/sampleCombine'
 
@@ -21,7 +22,7 @@ const item_to_dom = item => {
   )
 }
 
-export default options => sources => {
+export default options => isolate (sources => {
   const {
     type,
     fields, // (string * (? -> dom)) array
@@ -39,7 +40,7 @@ export default options => sources => {
   return {
     DOM: (
       xs.combine (...[
-        item$,
+        item$.filter (F.neg (F['='] ({}))),
         user_id$,
         roles$,
       ])
@@ -92,7 +93,6 @@ export default options => sources => {
             A.map (i =>
               DOM.select (`#set_featured_${i}`).events ('click').mapTo (i)
                 .compose(sampleCombine(item_id$))
-                .map (F.tap (F.log))
                 .map (([id, item_id]) => http_requests.post_featured () ({id, post_id: item_id}))
             ) (A.range (0) (2))
           )
@@ -108,4 +108,4 @@ export default options => sources => {
       ])
     ),
   }
-}
+})

@@ -11,7 +11,7 @@ export default sources => {
   return {
     DOM: (
       xs.of (
-        <div id='logout' className=''>
+        <div id='logout' className='padded'>
           <div className='panel'>
             <div className=''>
               <div className='title'>

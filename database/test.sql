@@ -112,9 +112,3 @@ CREATE TABLE IF NOT EXISTS blog.featured (
   id INTEGER,
   post_id INTEGER REFERENCES blog.posts(id)
 );
-INSERT INTO blog.featured
-VALUES (default, 1);
-INSERT INTO blog.featured
-VALUES (default, 1);
-INSERT INTO blog.featured
-VALUES (default, 1);

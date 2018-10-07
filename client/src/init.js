@@ -1,7 +1,7 @@
 import green_curry from 'green_curry'
 green_curry (['globalize', 'short F.c'])
 
-document.title = 'Socialism Anxiety Disorder'
+document.title = 'Asocialism'
 
 window.HTTP_auth = F.c (
   D.get ('body')
@@ -44,6 +44,6 @@ document.cookie = 'session=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
 import {} from './styles/general.css'
 import {} from './styles/nav_bar.css'
 import {} from './styles/header.css'
-import {} from './styles/recent.css'
+import {} from './styles/panels.css'
 import {} from './styles/text.css'
 import {} from './styles/user.css'

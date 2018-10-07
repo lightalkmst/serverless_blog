@@ -19,7 +19,6 @@ export default sources => {
     user_id$,
   } = sources
 
-
   const [
     [announcements$, announcement_dom$, announcement_http$],
     [posts$, post_dom$, post_http$],
@@ -41,6 +40,14 @@ export default sources => {
       const item_id$ =
         item_select$.compose (sampleCombine (items$))
           .map (([i, items]) => items[i].id)
+
+      const item_options = {
+        type,
+        columns: {
+          announcement: 1,
+          post: 3,
+        }[type],
+      }
 
       const {
         DOM: item_dom$,

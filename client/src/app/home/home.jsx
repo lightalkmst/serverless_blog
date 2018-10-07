@@ -12,11 +12,13 @@ export default sources => {
     DOM,
     HTTP,
     navigation$,
+    roles$,
   } = sources
 
   const announcement_options = {
     type: 'announcement',
     max_items: 1,
+    columns: 1,
   }
 
   const {
@@ -35,12 +37,17 @@ export default sources => {
     HTTP: announcement_http$,
   } = readable (announcement_options) ({
     ...sources,
-    item_id$: announcement_id$,
+    item_id$: xs.merge (...[
+      announcement_id$,
+      DOM.select ('#create_announcement').events ('click')
+        .mapTo (0),
+    ]),
   })
 
   const post_options = {
     type: 'post',
     max_items: 3,
+    columns: 3,
   }
 
   const {
@@ -59,7 +66,11 @@ export default sources => {
     HTTP: post_http$,
   } = readable (post_options) ({
     ...sources,
-    item_id$: post_id$,
+    item_id$: xs.merge (...[
+      post_id$,
+      DOM.select ('#create_post').events ('click')
+        .mapTo (0),
+    ]),
   })
 
   return {
@@ -68,30 +79,43 @@ export default sources => {
         xs.combine (...[
           announcement_panel_dom$,
           post_panels_dom$,
+          roles$,
         ])
           .map (([
             announcement_panel_dom,
             post_panels_dom,
+            roles,
           ]) => (
             <div id='home' className='padded'>
-              <h1 className='text_title text_hover'>Announcement</h1>
+              <h1 className='text_title text_hover'>Latest Announcement</h1>
               <br />
+              {A.contains ('admin') (roles) && [
+                <div className='right'>
+                  <button id='create_announcement'>New</button>
+                </div>,
+                <br />,
+              ]}
               {announcement_panel_dom}
               <br />
               <h1 className='text_title text_hover'>Featured Posts</h1>
               <br />
+              {A.contains ('admin') (roles) && [
+                <div className='right'>
+                  <button id='create_post'>New</button>
+                </div>,
+                <br />,
+              ]}
               {post_panels_dom}
             </div>
         )),
-        announcement_dom$.map (announcement_dom => (
-          <div id='home' className='padded'>
-            {announcement_dom}
-          </div>
-        )),
-        post_dom$.map (post_dom => (
-          <div id='home' className='padded'>
-            {post_dom}
-          </div>
+        xs.merge (...[
+          announcement_dom$,
+          post_dom$,
+        ])
+          .map (item_dom => (
+            <div id='home' className='padded'>
+              {item_dom}
+            </div>
         )),
       ])
     ),

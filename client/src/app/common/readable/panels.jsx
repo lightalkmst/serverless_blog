@@ -1,16 +1,17 @@
+import isolate from '@cycle/isolate'
 import xs from 'xstream'
 import sampleCombine from 'xstream/extra/sampleCombine'
 
 import init from '../../../init'
 
 import http_requests from '../http_requests'
-// import item from '../item/item'
 
-export default options => sources => {
+export default options => isolate (sources => {
   const {
     type,
     fields, // (string * (? -> dom)) array
     max_items,
+    columns,
   } = options
 
   const {
@@ -31,7 +32,7 @@ export default options => sources => {
   return {
     DOM: (
       items$.map (items => (
-        <div id={`${type}s`} className={`panel_grid_${max_items}`}>
+        <div id={`${type}s`} className={`panel_grid_${columns}`}>
           {
             A.mapi (i => item =>
               i < max_items && (
@@ -61,4 +62,4 @@ export default options => sources => {
     ),
     item_id$,
   }
-}
+})

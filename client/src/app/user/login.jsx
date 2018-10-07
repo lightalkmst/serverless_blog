@@ -15,16 +15,14 @@ export default sources => {
           <div className='panel'>
             <div className=''>
               <div className='title'>
-                <h1>{'Login'}</h1>
+                <h1>Login</h1>
               </div>
               <div className='center'>
-                {'Password restrictions and stuff'}
-                <br />
                 <input id='login_email' placeholder='Email'></input>
                 <br />
                 <input id='login_pass' placeholder='Password'></input>
                 <br />
-                <button id='login_send'>{'Login'}</button>
+                <button id='login_send'>Login</button>
               </div>
             </div>
           </div>
@@ -35,13 +33,15 @@ export default sources => {
                 <h1>{'Create an account'}</h1>
               </div>
               <div className='center'>
+                {'Password restrictions and stuff'}
+                <br />
                 <input id='create_email' placeholder='Email'></input>
                 <br />
                 <input id='create_pass' placeholder='Password'></input>
                 <br />
                 <input id='create_user' placeholder='Username'></input>
                 <br />
-                <button id='create_send'>{'Create'}</button>
+                <button id='create_send'>Create</button>
               </div>
             </div>
           </div>

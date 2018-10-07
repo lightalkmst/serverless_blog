@@ -25,6 +25,7 @@ export default sources => {
   const post_options = {
     type: 'post',
     max_items: 15,
+    columns: 3,
   }
 
   const {
@@ -47,20 +48,25 @@ export default sources => {
   })
 
   return {
-  DOM: (
-    xs.merge (...[
-      post_panels_dom$,
-      post_dom$,
-    ])
-      .map (posts_dom => (
-        <div id='home' className='padded'>
-          {posts_dom}
-        </div>
-      ))
-  ),
+    DOM: (
+      xs.merge (...[
+        post_panels_dom$,
+        post_dom$,
+      ])
+        .map (posts_dom => (
+          <div id='newest' className='padded'>
+            <h1 className='text_title text_hover'>Newest Posts</h1>
+            <br />
+            {posts_dom}
+          </div>
+        ))
+    ),
     HTTP: (
-      navigation$.filter (F['='] ('recent'))
-        .mapTo (http_requests.get_posts ({}) ())
+      xs.merge (...[
+        navigation$.filter (F['='] ('newest'))
+          .mapTo (http_requests.get_posts ({}) ()),
+        post_http$,
+      ])
     ),
   }
 }

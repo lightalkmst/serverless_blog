@@ -19,7 +19,6 @@
 .draft {
   height: 100%;
   width: 100%;
-  padding: 64px;
 }
 
 .draft input {
@@ -38,7 +37,7 @@
   resize: vertical;
 }
 
-.draft textarea#draft_post {
+.draft textarea#draft_body {
   height: 128px;
   width: 100%;
   background-color: var(--gray1);

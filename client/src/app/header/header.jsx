@@ -11,7 +11,7 @@ export default sources => {
         <div>
           {/* force the empty div to take space */}
           <div className='header_placeholder'>{'\u00A0'}</div>
-          <div className='header text_hover'>Socialism Anxiety Disorder</div>
+          <div className='header text_hover'>Asocialism</div>
         </div>
       )
     ),

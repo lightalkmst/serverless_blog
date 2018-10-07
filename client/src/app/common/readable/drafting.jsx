@@ -1,3 +1,4 @@
+import isolate from '@cycle/isolate'
 import xs from 'xstream'
 import delay from 'xstream/extra/delay'
 import sampleCombine from 'xstream/extra/sampleCombine'
@@ -6,7 +7,7 @@ import init from '../../../init'
 
 import http_requests from '../http_requests'
 
-export default options => sources => {
+export default options => isolate (sources => {
   const {type} = options
 
   const {
@@ -57,7 +58,8 @@ export default options => sources => {
           .startWith ([false, false]),
       ])
         .map (([item, [saved, deleted]]) =>
-          <div className='draft'>
+          <div id='' className='draft'>
+            <h1 className='text_title text_hover'>{`New ${S.upper (type[0])}${S.substr (1) (-1) (type)}`}</h1>
             {'Title: '}
             <br />
             <input id='draft_title'></input>
@@ -98,4 +100,4 @@ export default options => sources => {
       ])
     ),
   }
-}
+})

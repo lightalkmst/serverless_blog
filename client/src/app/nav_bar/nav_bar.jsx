@@ -11,7 +11,7 @@ export default sources => {
     xs.merge (...[
       ...A.map (x => DOM.select (`#${x}_tab`).events ('click').mapTo (x)) ([
         'home',
-        'recent',
+        'newest',
         'archive',
         'about',
         'account'
@@ -43,7 +43,7 @@ export default sources => {
             <br />
             <ul>
               <li id='home_tab'>Home</li>
-              <li id='recent_tab'>Recent</li>
+              <li id='newest_tab'>Newest Posts</li>
               <li id='archive_tab'>Archive</li>
               <li id='about_tab'>About</li>
               <li id='account_tab'>Account</li>

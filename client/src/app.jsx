@@ -6,7 +6,7 @@ import account from './app/user/account'
 import nav_bar from './app/nav_bar/nav_bar'
 import header from './app/header/header'
 import home from './app/home/home'
-import recent from './app/recent/recent'
+import newest from './app/newest/newest'
 import archive from './app/archive/archive'
 
 export default sources => {
@@ -48,9 +48,9 @@ export default sources => {
   })
 
   const {
-    DOM: recent_dom$,
-    HTTP: recent_http$,
-  } = recent ({
+    DOM: newest_dom$,
+    HTTP: newest_http$,
+  } = newest ({
     ...sources,
     navigation$,
     user_id$,
@@ -74,7 +74,7 @@ export default sources => {
         nav_bar_dom$,
         header_dom$,
         home_dom$,
-        recent_dom$.startWith (<div />),
+        newest_dom$.startWith (<div />),
         archive_dom$.startWith (<div />),
         account_dom$.startWith (<div />),
       ])
@@ -83,13 +83,13 @@ export default sources => {
           nav_bar_dom,
           header_dom,
           home_dom,
-          recent_dom,
+          newest_dom,
           archive_dom,
           account_dom,
         ]) => {
           const selected_tab_dom = {
             home_dom,
-            recent_dom,
+            newest_dom,
             archive_dom,
             account_dom,
           }[`${navigation}_dom`]
@@ -110,7 +110,7 @@ export default sources => {
     HTTP: (
       xs.merge (...[
         home_http$,
-        recent_http$,
+        newest_http$,
         archive_http$,
         account_http$,
       ])
