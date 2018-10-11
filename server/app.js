@@ -125,6 +125,7 @@ A.iter (([web_path, file_path, type]) => serve_static_file (web_path) (file_path
   ['favicon.ico', 'build/client/favicon.png', 'html'],
   ['catroomguardian.jpg', 'build/client/catroomguardian.jpg', 'plain'],
   ['yxyha.jpg', 'build/client/yxyha.jpg', 'plain'],
+  ['ajax-loader.gif', 'build/client/ajax-loader.gif', 'plain'],
   ['', 'build/client/index.html', 'html'],
 ])
 

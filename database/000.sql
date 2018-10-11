@@ -56,6 +56,6 @@ CREATE TABLE IF NOT EXISTS blog.announcements (
 );
 
 CREATE TABLE IF NOT EXISTS blog.featured (
-  id INTEGER,
+  id SERIAL PRIMARY KEY,
   post_id INTEGER REFERENCES blog.posts(id)
 );

@@ -42,7 +42,7 @@ export default sources => {
     HTTP: home_http$,
   } = home ({
     ...sources,
-    navigation$,
+    navigation$: navigation$.filter (F['=='] ('home')),
     user_id$,
     roles$,
   })
@@ -52,7 +52,7 @@ export default sources => {
     HTTP: newest_http$,
   } = newest ({
     ...sources,
-    navigation$,
+    navigation$: navigation$.filter (F['=='] ('newest')),
     user_id$,
     roles$,
   })
@@ -62,7 +62,7 @@ export default sources => {
     HTTP: archive_http$,
   } = archive ({
     ...sources,
-    navigation$,
+    navigation$: navigation$.filter (F['=='] ('archive')),
     user_id$,
     roles$,
   })

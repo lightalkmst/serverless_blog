@@ -4,7 +4,7 @@ const handler = async event =>
   crud.query (`
     INSERT INTO blog.posts
     VALUES (
-      ${event.body.id == '0' ? 'default' : '$9::INTEGER'},
+      ${event.body.id == '0' ? 'default' : '$7::INTEGER'},
       $1::INTEGER,
       $2::TEXT,
       $3::TEXT,

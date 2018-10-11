@@ -5,6 +5,7 @@ const handler = crud.query (`
   FROM blog.featured featured INNER JOIN blog.posts posts
   ON featured.post_id = posts.id
   WHERE published OR user_id = $1::INTEGER
+  ORDER BY featured.id ASC
 `) (user_id => () => [user_id]) (crud.id)
 
 exports && (exports.handler = handler)

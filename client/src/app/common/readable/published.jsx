@@ -74,6 +74,7 @@ export default options => isolate (sources => {
             <div className={'text_data text_hover'}>
               {`Written by ${item.user_id} on ${time_string (item.created)}`}
               {item.updated && `Last updated on ${time_string (item.updated)}`}
+              {`Tags: ${item.tags}`}
             </div>
             <br />
             <div className={'text_body'}>

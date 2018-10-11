@@ -17,7 +17,7 @@ export default sources => {
               <div className='title'>
                 <h1>Login</h1>
               </div>
-              <div className='center'>
+              <div className='center half-padded'>
                 <input id='login_email' placeholder='Email'></input>
                 <br />
                 <input id='login_pass' placeholder='Password'></input>
@@ -32,7 +32,7 @@ export default sources => {
               <div className='title'>
                 <h1>{'Create an account'}</h1>
               </div>
-              <div className='center'>
+              <div className='center half-padded'>
                 {'Password restrictions and stuff'}
                 <br />
                 <input id='create_email' placeholder='Email'></input>

@@ -5,6 +5,7 @@ import init from '../../init'
 
 import http_requests from '../common/http_requests'
 import readable from '../common/readable/readable'
+import loading from '../common/loading/loading'
 
 const short_time_string = timestamp => {
   const date = new Date (timestamp)
@@ -41,14 +42,6 @@ export default sources => {
         item_select$.compose (sampleCombine (items$))
           .map (([i, items]) => items[i].id)
 
-      const item_options = {
-        type,
-        columns: {
-          announcement: 1,
-          post: 3,
-        }[type],
-      }
-
       const {
         DOM: item_dom$,
         HTTP: item_http$,
@@ -61,14 +54,20 @@ export default sources => {
       return [items$, item_dom$, item_http$]
     }) (['announcement', 'post'])
 
-  const row = type =>
-    A.mapi (i => x => (
-      <div id={`archive_${type}_${i}`} className='bordered'>
-        {`${short_time_string (x.created)} : ${x.title}`}
-      </div>
-    ))
+  const create_rows = type =>
+    F.c (
+      // reverse chronological
+      A.sort (x => y => new Date (y.updated) - new Date (x.updated))
+      >> A.mapi (i => x => (
+        <div id={`archive_${type}_${i}`} className='bordered'>
+          {`${short_time_string (x.updated)} ${!x.published ? '<drafting> ' : ''}: ${x.title}`}
+        </div>
+      ))
+    )
 
   // TODO: search functionality
+
+  const {DOM: loading_dom$} = loading (sources)
 
   return {
     DOM: (
@@ -84,11 +83,11 @@ export default sources => {
             <div id='archive' className='padded'>
               <h1 className='text_title text_hover'>Announcements</h1>
               <br />
-              {row ('announcement') (announcements)}
+              {create_rows ('announcement') (announcements)}
               <br />
               <h1 className='text_title text_hover'>Posts</h1>
               <br />
-              {row ('post') (posts)}
+              {create_rows ('post') (posts)}
             </div>
           )),
         xs.merge (...[
@@ -100,14 +99,13 @@ export default sources => {
               {text_dom}
             </div>
           )),
+        loading_dom$,
       ])
     ),
     HTTP: (
       xs.merge (...[
-        navigation$.filter (F['='] ('archive'))
-          .mapTo (http_requests.get_posts ({}) ()),
-        navigation$.filter (F['='] ('archive'))
-          .mapTo (http_requests.get_announcements ({}) ()),
+        navigation$.mapTo (http_requests.get_posts ({}) ()),
+        navigation$.mapTo (http_requests.get_announcements ({}) ()),
         announcement_http$,
         post_http$,
       ])

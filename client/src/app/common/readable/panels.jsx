@@ -47,6 +47,7 @@ export default options => isolate (sources => {
                         ? `Posted: ${time_string (item.created)}`
                         : `This item has not been published yet`
                       }
+                      <br />
                       {item.updated && `Updated: ${time_string (item.updated)}`}
                       <br />
                       {`Tags: ${item.tags}`}

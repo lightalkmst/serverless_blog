@@ -103,6 +103,10 @@ button:hover {
   padding: 24px;
 }
 
+.half-padded {
+  padding: 12px;
+}
+
 .bordered {
   border: 2px solid var(--gray1);
   border-radius: 8px;

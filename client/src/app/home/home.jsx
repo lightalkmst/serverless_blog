@@ -6,6 +6,7 @@ import init from '../../init'
 import http_requests from '../common/http_requests'
 import panels from '../common/readable/panels'
 import readable from '../common/readable/readable'
+import loading from '../common/loading/loading'
 
 export default sources => {
   const {
@@ -73,6 +74,8 @@ export default sources => {
     ]),
   })
 
+  const {DOM: loading_dom$} = loading (sources)
+
   return {
     DOM: (
       xs.merge (...[
@@ -91,7 +94,7 @@ export default sources => {
               <br />
               {A.contains ('admin') (roles) && [
                 <div className='right'>
-                  <button id='create_announcement'>New</button>
+                  <button id='create_announcement'>Announce</button>
                 </div>,
                 <br />,
               ]}
@@ -101,7 +104,7 @@ export default sources => {
               <br />
               {A.contains ('admin') (roles) && [
                 <div className='right'>
-                  <button id='create_post'>New</button>
+                  <button id='create_post'>Post</button>
                 </div>,
                 <br />,
               ]}
@@ -117,14 +120,13 @@ export default sources => {
               {item_dom}
             </div>
         )),
+        loading_dom$,
       ])
     ),
     HTTP: (
       xs.merge (...[
-        navigation$.filter (F['='] ('home'))
-          .mapTo (http_requests.get_announcements ({}) ()),
-        navigation$.filter (F['='] ('home'))
-          .mapTo (http_requests.get_featured ({}) ()),
+        navigation$.mapTo (http_requests.get_announcements ({}) ()),
+        navigation$.mapTo (http_requests.get_featured ({}) ()),
         announcement_http$,
         post_http$,
       ])

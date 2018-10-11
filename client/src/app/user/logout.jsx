@@ -17,7 +17,7 @@ export default sources => {
               <div className='title'>
                 <h1>{'Logout'}</h1>
               </div>
-              <div className='center padded'>
+              <div className='center half-padded'>
                 <button id='logout_send'>{'Logout'}</button>
               </div>
             </div>

@@ -6,6 +6,7 @@ import init from '../../init'
 import http_requests from '../common/http_requests'
 import panels from '../common/readable/panels'
 import readable from '../common/readable/readable'
+import loading from '../common/loading/loading'
 
 const max_posts = 15
 
@@ -47,24 +48,28 @@ export default sources => {
     item_id$: post_id$,
   })
 
+  const {DOM: loading_dom$} = loading (sources)
+
   return {
     DOM: (
       xs.merge (...[
-        post_panels_dom$,
-        post_dom$,
+        xs.merge (...[
+          post_panels_dom$,
+          post_dom$,
+        ])
+          .map (posts_dom => (
+            <div id='newest' className='padded'>
+              <h1 className='text_title text_hover'>Newest Posts</h1>
+              <br />
+              {posts_dom}
+            </div>
+          )),
+        loading_dom$,
       ])
-        .map (posts_dom => (
-          <div id='newest' className='padded'>
-            <h1 className='text_title text_hover'>Newest Posts</h1>
-            <br />
-            {posts_dom}
-          </div>
-        ))
     ),
     HTTP: (
       xs.merge (...[
-        navigation$.filter (F['='] ('newest'))
-          .mapTo (http_requests.get_posts ({}) ()),
+        navigation$.mapTo (http_requests.get_posts ({}) ()),
         post_http$,
       ])
     ),
