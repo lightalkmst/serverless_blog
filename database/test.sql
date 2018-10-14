@@ -1,7 +1,7 @@
 INSERT INTO blog.users VALUES (
   default,
   'o@k.c',
-  '$2a$10$ee9TqxsLeABwU3v5018YXeTKqiM6dHYWGhmNpqDryhdjVYmz6D/H2',
+  '$2a$10$P8HfQJ793VI451O5Uq6lL.nz5n1Kf1.p0srp9Dg4.I/gCcj3FxBvG',
   'admin',
   'admin, user',
   TRUE,
@@ -16,7 +16,6 @@ INSERT INTO blog.posts VALUES (
   LOCALTIMESTAMP,
   NULL,
   'spicy, meaty',
-  TRUE,
   'Spicy jalapeno bacon ipsum dolor amet pork belly pork chop jerky frankfurter filet mignon pork loin chuck. Capicola pancetta turducken tri-tip swine burgdoggen sausage. Cupim jerky sausage sirloin bresaola leberkas porchetta beef ribs ham chicken flank meatloaf ribeye kevin. Pancetta meatball jowl cupim. Ground round strip steak frankfurter pork hamburger tail beef venison prosciutto corned beef boudin swine turkey jowl shank. Jowl swine ball tip sausage.
 
   Shankle prosciutto shank filet mignon drumstick pork loin fatback kevin tongue. Burgdoggen bresaola tail sirloin sausage ground round salami meatball jerky biltong tri-tip. Pork loin meatloaf ball tip doner tri-tip turkey. Jowl sirloin corned beef kielbasa burgdoggen pork belly tri-tip biltong.
@@ -50,6 +49,5 @@ INSERT INTO blog.announcements VALUES (
   LOCALTIMESTAMP,
   NULL,
   'spicy, meaty',
-  TRUE,
   'Spicy jalapeno bacon ipsum dolor amet pork belly pork chop jerky frankfurter filet mignon pork loin chuck. Capicola pancetta turducken tri-tip swine burgdoggen sausage. Cupim jerky sausage sirloin bresaola leberkas porchetta beef ribs ham chicken flank meatloaf ribeye kevin. Pancetta meatball jowl cupim. Ground round strip steak frankfurter pork hamburger tail beef venison prosciutto corned beef boudin swine turkey jowl shank. Jowl swine ball tip sausage.'
 );

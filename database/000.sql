@@ -17,10 +17,9 @@ CREATE TABLE IF NOT EXISTS blog.posts (
   user_id INTEGER REFERENCES blog.users(id),
   title TEXT,
   summary TEXT,
-  created TIMESTAMP,
+  published TIMESTAMP,
   updated TIMESTAMP,
   tags TEXT,
-  published BOOLEAN,
   body TEXT
 );
 
@@ -30,7 +29,7 @@ CREATE TABLE IF NOT EXISTS blog.comments (
   user_id INTEGER REFERENCES blog.users(id),
   replied_comment_id INTEGER,
   body TEXT,
-  created TIMESTAMP,
+  published TIMESTAMP,
   updated TIMESTAMP
 );
 
@@ -39,7 +38,7 @@ CREATE TABLE IF NOT EXISTS blog.messages (
   user_from_id INTEGER REFERENCES blog.users(id),
   user_to_id INTEGER REFERENCES blog.users(id),
   body TEXT,
-  created TIMESTAMP,
+  published TIMESTAMP,
   updated TIMESTAMP
 );
 
@@ -48,10 +47,9 @@ CREATE TABLE IF NOT EXISTS blog.announcements (
   user_id INTEGER REFERENCES blog.users(id),
   title TEXT,
   summary TEXT,
-  created TIMESTAMP,
+  published TIMESTAMP,
   updated TIMESTAMP,
   tags TEXT,
-  published BOOLEAN,
   body TEXT
 );
 

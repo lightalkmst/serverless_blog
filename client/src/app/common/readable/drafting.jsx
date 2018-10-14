@@ -17,7 +17,7 @@ export default options => isolate (sources => {
     item_id$,
   } = sources
 
-  const post_on_click = btn => published =>
+  const post_on_click = btn => publish =>
     DOM.select (`#draft_${btn}`).events ('click')
       .compose (sampleCombine (
         xs.combine (...[
@@ -38,7 +38,7 @@ export default options => isolate (sources => {
         summary: summary.target.value,
         body: body.target.value,
       }))
-      .map (body => http_requests[`post_${type}`] () ({...body, published}))
+      .map (body => http_requests[`post_${type}`] () ({...body, publish}))
 
   return {
     DOM: (
@@ -59,22 +59,22 @@ export default options => isolate (sources => {
       ])
         .map (([item, [saved, deleted]]) =>
           <div id='' className='draft'>
-            <h1 className='text_title text_hover'>{`New ${S.upper (type[0])}${S.substr (1) (-1) (type)}`}</h1>
+            <h1 className='text_title text_hover'>{`${item.published ? 'New' : 'Editing'} ${S.upper (type[0])}${S.substr (1) (-1) (type)}`}</h1>
             {'Title: '}
             <br />
-            <input id='draft_title'></input>
+            <input id='draft_title'>{item.title}</input>
             <br />
             {'Tags: '}
             <br />
-            <input id='draft_tags'></input>
+            <input id='draft_tags'>{item.tags}</input>
             <br />
             {'Summary: '}
             <br />
-            <textarea id='draft_summary'></textarea>
+            <textarea id='draft_summary'>{item.tags}</textarea>
             <br />
             {'Body: '}
             <br />
-            <textarea id='draft_body'></textarea>
+            <textarea id='draft_body'>{item.body}</textarea>
             <div>
               {saved && 'Successfully saved'}
               {deleted && 'Successfully deleted'}
@@ -82,7 +82,7 @@ export default options => isolate (sources => {
             <div className='right'>
               <button id='draft_delete'>Delete</button>
               <button id='draft_save'>Save</button>
-              <button id='draft_publish'>Publish</button>
+              {!item.published && <button id='draft_publish'>Publish</button>}
             </div>
           </div>
       )

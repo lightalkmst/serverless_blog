@@ -13,7 +13,7 @@ const handler = async event => {
   cfg.local || await client.end ()
   const user = resp.rows[0]
   return format (
-    !user || !bcrypt.compareSync (event.body.pass, user.pass)
+    !user || !bcrypt.compareSync (`${event.body.pass}${cfg.salt}`, user.pass)
     ? {
       body: {
         error: 'email and password combination not found',

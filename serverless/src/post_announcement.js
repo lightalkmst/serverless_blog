@@ -10,7 +10,6 @@ const handler = crud.query (`
     $4::TIMESTAMPTZ,
     $5::TIMESTAMPTZ,
     $6::TEXT,
-    $7::BOOLEAN,
     $8::TEXT
   )
 `) (user_id => event => []) (crud.id)

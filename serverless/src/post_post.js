@@ -8,22 +8,21 @@ const handler = async event =>
       $1::INTEGER,
       $2::TEXT,
       $3::TEXT,
+      $4::LOCALTIMESTAMP,
       LOCALTIMESTAMP,
-      LOCALTIMESTAMP,
-      $4::TEXT,
-      $5::BOOLEAN,
+      $5::TEXT,
       $6::TEXT
     )
     ON CONFLICT (id)
     DO UPDATE SET
       title = $2::TEXT,
       summary = $3::TEXT,
+      published = $4::BOOLEAN,
       updated = LOCALTIMESTAMP,
-      tags = $4::TEXT,
-      published = $5::BOOLEAN,
+      tags = $5::TEXT,
       body = $6::TEXT
     RETURNING *
-  `) (user_id => event => [user_id, event.body.title, event.body.summary, event.body.tags, event.body.published, event.body.body, ...(event.body.id == '0' ? [] : [event.body.id])]) (crud.id) (event)
+  `) (user_id => event => [user_id, event.body.title, event.body.summary, event.body.published, event.body.tags, event.body.body, ...(event.body.id == '0' ? [] : [event.body.id])]) (crud.id) (event)
 
 exports && (exports.handler = handler)
 module && (module.exports = handler)

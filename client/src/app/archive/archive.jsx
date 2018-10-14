@@ -28,6 +28,8 @@ export default sources => {
       const items$ =
         HTTP.select (`get_${type}s`).flatten ()
           .map (HTTP_resp)
+          // reverse chronological
+          .map (A.sort (x => y => new Date (y.updated) - new Date (x.updated)))
 
       const item_select$ =
         DOM.select (`#archive div`).events ('click')
@@ -55,15 +57,11 @@ export default sources => {
     }) (['announcement', 'post'])
 
   const create_rows = type =>
-    F.c (
-      // reverse chronological
-      A.sort (x => y => new Date (y.updated) - new Date (x.updated))
-      >> A.mapi (i => x => (
-        <div id={`archive_${type}_${i}`} className='bordered'>
-          {`${short_time_string (x.published || x.updated)} ${!x.published ? '<drafting> ' : ''}: ${x.title}`}
-        </div>
-      ))
-    )
+    A.mapi (i => x => (
+      <div id={`archive_${type}_${i}`} className='bordered'>
+        {`${short_time_string (x.published || x.updated)} ${!x.published ? '<drafting> ' : ''}: ${x.title}`}
+      </div>
+    ))
 
   // TODO: search functionality
 
