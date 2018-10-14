@@ -125,8 +125,9 @@ export default sources => {
     ),
     HTTP: (
       xs.merge (...[
-        navigation$.mapTo (http_requests.get_announcements ({}) ()),
         // cycle bug? doesn't run initial page load request if not included
+        navigation$.filter (F.const (true))
+          .mapTo (http_requests.get_announcements ({}) ()),
         navigation$.filter (F.const (true))
           .mapTo (http_requests.get_featured ({}) ()),
         announcement_http$,

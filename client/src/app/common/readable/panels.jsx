@@ -44,7 +44,7 @@ export default options => isolate (sources => {
                     <div className='info'>
                       {
                         item.published
-                        ? `Posted: ${time_string (item.created)}`
+                        ? `Posted: ${time_string (item.published)}`
                         : `This item has not been published yet`
                       }
                       <br />

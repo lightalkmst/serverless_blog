@@ -1,11 +1,11 @@
 {
   "private": true,
-  "devDependencies": {},
   "dependencies": {
     "@cycle/dom": "18.3.0",
-    "@cycle/run": "3.3.0",
     "@cycle/http": "14.9.0",
-    "xstream": "11.0.0",
-    "green_curry": "*"
+    "@cycle/isolate": "^3.4.0",
+    "@cycle/run": "3.3.0",
+    "green_curry": "^0.3.1",
+    "xstream": "11.0.0"
   }
 }

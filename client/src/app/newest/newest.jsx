@@ -21,7 +21,7 @@ export default sources => {
   const posts$ =
     HTTP.select ('get_posts').flatten ()
       .map (HTTP_resp)
-      .map (A.sort (x => y => new Date (y.timestamp) - new Date (x.timestamp)))
+      .map (A.sort (x => y => new Date (y.updated) - new Date (x.updated)))
 
   const post_options = {
     type: 'post',

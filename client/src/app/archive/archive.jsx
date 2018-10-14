@@ -60,7 +60,7 @@ export default sources => {
       A.sort (x => y => new Date (y.updated) - new Date (x.updated))
       >> A.mapi (i => x => (
         <div id={`archive_${type}_${i}`} className='bordered'>
-          {`${short_time_string (x.updated)} ${!x.published ? '<drafting> ' : ''}: ${x.title}`}
+          {`${short_time_string (x.published || x.updated)} ${!x.published ? '<drafting> ' : ''}: ${x.title}`}
         </div>
       ))
     )
