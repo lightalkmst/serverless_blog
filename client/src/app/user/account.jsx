@@ -22,7 +22,7 @@ export default sources => {
     HTTP: profile_http$,
   } = profile (sources)
 
-  const user$ = 
+  const user$ =
     xs.merge (
       ...A.map (x => HTTP.select (x).flatten ()) ([
         'post_account',
@@ -34,11 +34,11 @@ export default sources => {
 
   return {
     DOM: (
-      xs.combine (...[
+      xs.combine (
         auth$,
         login_dom$,
         profile_dom$,
-      ])
+      )
         .map (([
           authorized,
           login_dom,
@@ -54,17 +54,17 @@ export default sources => {
       ))
     ),
     HTTP: (
-      xs.merge (...[
+      xs.merge (
         login_http$,
         profile_http$,
-      ])
+      )
     ),
     user_id$: (
-      xs.merge (...[
+      xs.merge (
         user$.map (D.get ('id')),
         HTTP.select ('post_logout').flatten ()
           .mapTo (-1),
-      ])
+      )
         .startWith (-1)
     ),
     navigation$: (
@@ -77,12 +77,12 @@ export default sources => {
         .mapTo ('login')
     ),
     roles$: (
-      xs.merge (...[
+      xs.merge (
         user$.map (D.get ('roles'))
           .map (S.split (', ')),
         HTTP.select ('post_logout').flatten ()
           .mapTo ([]),
-      ])
+      )
         .startWith ([])
     ),
   }

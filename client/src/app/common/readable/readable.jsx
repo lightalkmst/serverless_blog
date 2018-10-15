@@ -18,7 +18,7 @@ export default options => isolate (sources => {
   } = sources
 
   const item$ =
-    xs.merge (...[
+    xs.merge (
       xs.merge (...A.map (x => HTTP.select (x).flatten ()) ([
         `get_${type}`,
         `post_${type}`,
@@ -28,7 +28,7 @@ export default options => isolate (sources => {
         .map (A.get (0)),
       item_id$.filter (F.neg (F.id))
         .mapTo ({}),
-    ])
+    )
 
   const {
     DOM: drafting_dom$,
@@ -37,10 +37,10 @@ export default options => isolate (sources => {
     ...sources,
     item$,
     item_id$: (
-      xs.merge (...[
+      xs.merge (
         item$.map (D.get ('id')),
         item_id$,
-      ])
+      )
     ),
   })
 
@@ -55,12 +55,12 @@ export default options => isolate (sources => {
 
   return {
     DOM: (
-      xs.combine (...[
+      xs.combine (
         item$,
         editing$,
         drafting_dom$.startWith (null),
         published_dom$.startWith (null),
-      ])
+      )
         .map (([item, editing, drafting_dom, published_dom]) => (
           <div id='item' className=''>
             {
@@ -73,10 +73,10 @@ export default options => isolate (sources => {
         .startWith (null)
     ),
     HTTP: (
-      xs.merge (...[
+      xs.merge (
         drafting_http$,
         published_http$,
-      ])
+      )
     ),
   }
 })

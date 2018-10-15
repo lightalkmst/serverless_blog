@@ -8,7 +8,7 @@ export default sources => {
   const {DOM} = sources
 
   const navigation$ =
-    xs.merge (...[
+    xs.merge (
       ...A.map (x => DOM.select (`#${x}_tab`).events ('click').mapTo (x)) ([
         'home',
         'newest',
@@ -17,17 +17,17 @@ export default sources => {
         'account',
       ]),
       DOM.select ('#logo_tab').events ('click').mapTo ('home'),
-    ])
+    )
       .startWith ('home')
 
   const {DOM: blog_logo_dom$} = blog_logo (sources)
 
   return {
     DOM: (
-      xs.combine (...[
+      xs.combine (
         navigation$,
         blog_logo_dom$,
-      ])
+      )
         .map (([
           navigation,
           blog_logo_dom,

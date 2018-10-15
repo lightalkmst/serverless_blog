@@ -20,7 +20,7 @@ export default options => isolate (sources => {
   const post_on_click = btn => publish =>
     DOM.select (`#draft_${btn}`).events ('click')
       .compose (sampleCombine (
-        xs.combine (...[
+        xs.combine (
           item_id$,
           ...A.map (x => DOM.select (`#draft_${x}`).events ('input')) ([
             'title',
@@ -28,7 +28,7 @@ export default options => isolate (sources => {
             'summary',
             'body',
           ])
-        ])
+        )
       ))
       .map (A.get (1))
       .map (([id, title, tags, summary, body]) => ({
@@ -42,21 +42,21 @@ export default options => isolate (sources => {
 
   return {
     DOM: (
-      xs.combine (...[
+      xs.combine (
         item$.startWith ({}),
-        xs.merge (...[
+        xs.merge (
           // assume post was just a save since they'd be sent to the published view otherwise
           HTTP.select (`post_${type}`).flatten ().mapTo ([true, false]),
           HTTP.select (`del_${type}`).flatten ().mapTo ([false, true]),
-          xs.merge (...[
+          xs.merge (
             HTTP.select (`post_${type}`).flatten (),
             HTTP.select (`del_${type}`).flatten (),
-          ])
+          )
             .mapTo ([false, false])
             .compose (delay (3000))
-        ])
+        )
           .startWith ([false, false]),
-      ])
+      )
         .map (([item, [saved, deleted]]) =>
           <div id='' className='draft'>
             <h1 className='text_title text_hover'>{`${item.published ? 'New' : 'Editing'} ${S.upper (type[0])}${S.substr (1) (-1) (type)}`}</h1>
@@ -88,7 +88,7 @@ export default options => isolate (sources => {
       )
     ),
     HTTP: (
-      xs.merge (...[
+      xs.merge (
         post_on_click ('save') (false),
         post_on_click ('publish') (true),
         // delete
@@ -97,7 +97,7 @@ export default options => isolate (sources => {
           .map (A.get (1))
           .filter (F.id)
           .map (id => http_requests[`del_${type}`] ({id}) ()),
-      ])
+      )
     ),
   }
 })

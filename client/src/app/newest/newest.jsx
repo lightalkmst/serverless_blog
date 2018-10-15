@@ -52,26 +52,26 @@ export default sources => {
 
   return {
     DOM: (
-      xs.merge (...[
-        xs.merge (...[
+      xs.merge (
+        xs.merge (
           post_panels_dom$,
           post_dom$,
-        ])
+        )
           .map (posts_dom => (
-            <div id='newest'>
+            <div id='newest' className=''>
               <h1 className='text_title text_hover'>Newest Posts</h1>
               <br />
               {posts_dom}
             </div>
           )),
         loading_dom$,
-      ])
+      )
     ),
     HTTP: (
-      xs.merge (...[
+      xs.merge (
         navigation$.mapTo (http_requests.get_posts ({}) ()),
         post_http$,
-      ])
+      )
     ),
   }
 }

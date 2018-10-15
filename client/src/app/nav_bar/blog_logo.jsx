@@ -7,10 +7,10 @@ export default sources => {
 
   return {
     DOM: (
-      xs.merge (...[
+      xs.merge (
         DOM.select ('#logo').events ('mouseenter').mapTo (false),
         DOM.select ('#logo').events ('mouseleave').mapTo (true),
-      ])
+      )
         .startWith (true)
         .map (hover =>
           hover

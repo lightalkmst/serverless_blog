@@ -20,9 +20,9 @@ export default sources => {
 
   return {
     DOM: (
-      xs.combine (...[
+      xs.combine (
         logout_dom$,
-      ])
+      )
         .map (([
           logout_dom
         ]) => (
@@ -32,9 +32,9 @@ export default sources => {
       ))
     ),
     HTTP: (
-      xs.merge (...[
+      xs.merge (
         logout_http$,
-      ])
+      )
     ),
   }
 }

@@ -69,16 +69,16 @@ export default sources => {
 
   return {
     DOM: (
-      xs.merge (...[
-        xs.combine (...[
+      xs.merge (
+        xs.combine (
           announcements$,
           posts$,
-        ])
+        )
           .map (([
             announcements,
             posts,
           ]) => (
-            <div id='archive' className='padded'>
+            <div id='archive' className=''>
               <h1 className='text_title text_hover'>Announcements</h1>
               <br />
               {create_rows ('announcement') (announcements)}
@@ -88,25 +88,25 @@ export default sources => {
               {create_rows ('post') (posts)}
             </div>
           )),
-        xs.merge (...[
+        xs.merge (
           announcement_dom$,
           post_dom$,
-        ])
+        )
           .map (text_dom => (
-            <div id='archive' className='padded'>
+            <div id='archive'>
               {text_dom}
             </div>
           )),
         loading_dom$,
-      ])
+      )
     ),
     HTTP: (
-      xs.merge (...[
+      xs.merge (
         navigation$.mapTo (http_requests.get_posts ({}) ()),
         navigation$.mapTo (http_requests.get_announcements ({}) ()),
         announcement_http$,
         post_http$,
-      ])
+      )
     ),
   }
 }

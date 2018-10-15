@@ -44,12 +44,12 @@ export default options => isolate (sources => {
 
   return {
     DOM: (
-      xs.combine (...[
+      xs.combine (
         item$.filter (F.neg (F['='] ({}))),
         user_id$,
         user$,
         roles$,
-      ])
+      )
         .map (([
           item,
           user_id,
@@ -93,7 +93,7 @@ export default options => isolate (sources => {
       ))
     ),
     HTTP: (
-      xs.merge (...[
+      xs.merge (
         item_id$.filter (F.id)
           .map (id => http_requests[`get_${type}`] ({id}) ()),
         // setting as featured is only available for posts
@@ -109,14 +109,14 @@ export default options => isolate (sources => {
           : []
         ),
         item$.map (x => http_requests.get_user ({id: x.user_id}) ()),
-      ])
+      )
     ),
     editing$: (
-      xs.merge (...[
+      xs.merge (
         item$.mapTo (false),
         DOM.select (`#${type}_edit`).events ('click')
           .mapTo (true)
-      ])
+      )
     ),
   }
 })

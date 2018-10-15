@@ -30,10 +30,10 @@ export default sources => {
   })
 
   const navigation$ =
-    xs.merge (...[
+    xs.merge (
       account_navigation$,
       nav_bar_navigation$,
-    ])
+    )
       .startWith ('home')
 
   const {
@@ -110,7 +110,7 @@ export default sources => {
               {nav_bar_dom}
               <div className='main'>
                 {header_dom}
-                <div className='content'>
+                <div className='content padded'>
                   {selected_tab_dom}
                 </div>
               </div>
@@ -119,12 +119,12 @@ export default sources => {
       })
     ),
     HTTP: (
-      xs.merge (...[
+      xs.merge (
         home_http$,
         newest_http$,
         archive_http$,
         account_http$,
-      ])
+      )
     ),
   }
 }

@@ -9,7 +9,9 @@ export default sources => {
   return {
     DOM: (
       xs.of (
-        <div id='login' className='padded'>
+        <div id='about' className=''>
+          <h1>About</h1>
+          We do not have an about page because the author of this blog is too lazy to write one
         </div>
       )
     ),

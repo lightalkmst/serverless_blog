@@ -20,7 +20,7 @@ export default sources => {
   return {
     DOM: (
       xs.of (
-        <div id='login' className='padded'>
+        <div id='login'>
           <div className='panel'>
             <div className=''>
               <div className='title'>
@@ -58,7 +58,7 @@ export default sources => {
       )
     ),
     HTTP: (
-      xs.merge (...[
+      xs.merge (
         DOM.select ('#login_send').events ('click')
           .compose (sampleCombine (
             xs.combine (
@@ -81,7 +81,7 @@ export default sources => {
         ))
           .map (A.get (1))
           .map (([email, pass, user]) => http_requests.post_account () ({email, pass, user})),
-      ])
+      )
     ),
   }
 }
