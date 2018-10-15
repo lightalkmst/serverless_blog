@@ -48,7 +48,7 @@ export default options => isolate (sources => {
                         : `This item has not been published yet`
                       }
                       <br />
-                      {item.updated && `Updated: ${time_string (item.updated)}`}
+                      {item.updated && `Updated: ${time_string (item.updated || item.published)}`}
                       <br />
                       {`Tags: ${item.tags}`}
                     </div>

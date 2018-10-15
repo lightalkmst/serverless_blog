@@ -37,4 +37,8 @@ export default {
   post_login: post ('login') ('post_login'),
 
   post_logout: post ('logout') ('post_logout'),
+
+  get_users: get ('users') ('get_users'),
+
+  get_user: get ('user') ('get_user'),
 }

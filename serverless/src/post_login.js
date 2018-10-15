@@ -16,8 +16,8 @@ const handler = async event => {
     !user || !bcrypt.compareSync (`${event.body.pass}${cfg.salt}`, user.pass)
     ? {
       body: {
-        error: 'email and password combination not found',
-        response: {},
+        auth: false,
+        response: false,
       },
     }
     : {

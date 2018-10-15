@@ -8,9 +8,15 @@ import header from './app/header/header'
 import home from './app/home/home'
 import newest from './app/newest/newest'
 import archive from './app/archive/archive'
+import about from './app/about/about'
 
 export default sources => {
   const {DOM, HTTP} = sources
+
+  const {
+    DOM: nav_bar_dom$,
+    navigation$: nav_bar_navigation$,
+  } = nav_bar (sources)
 
   const {
     DOM: account_dom$,
@@ -18,12 +24,10 @@ export default sources => {
     user_id$,
     navigation$: account_navigation$,
     roles$,
-  } = account (sources)
-
-  const {
-    DOM: nav_bar_dom$,
+  } = account ({
+    ...sources,
     navigation$: nav_bar_navigation$,
-  } = nav_bar (sources)
+  })
 
   const navigation$ =
     xs.merge (...[
@@ -32,7 +36,6 @@ export default sources => {
     ])
       .startWith ('home')
 
-  // TODO: search bar
   const {
     DOM: header_dom$,
   } = header (sources)
@@ -67,9 +70,14 @@ export default sources => {
     roles$,
   })
 
+  const {DOM: about_dom$} = about ({
+    ...sources,
+    navigation$: navigation$.filter (F['=='] ('about')),
+  })
+
   return {
     DOM: (
-      xs.combine (...[
+      xs.combine (
         navigation$,
         nav_bar_dom$,
         header_dom$,
@@ -77,7 +85,8 @@ export default sources => {
         newest_dom$.startWith (<div />),
         archive_dom$.startWith (<div />),
         account_dom$.startWith (<div />),
-      ])
+        about_dom$,
+      )
         .map (([
           navigation,
           nav_bar_dom,
@@ -86,12 +95,14 @@ export default sources => {
           newest_dom,
           archive_dom,
           account_dom,
+          about_dom,
         ]) => {
           const selected_tab_dom = {
             home_dom,
             newest_dom,
             archive_dom,
             account_dom,
+            about_dom,
           }[`${navigation}_dom`]
 
           return (

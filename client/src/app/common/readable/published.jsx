@@ -37,16 +37,23 @@ export default options => isolate (sources => {
     roles$,
   } = sources
 
+  const user$ =
+    HTTP.select ('get_user').flatten ()
+      .map (HTTP_resp)
+      .map (A.get (0))
+
   return {
     DOM: (
       xs.combine (...[
         item$.filter (F.neg (F['='] ({}))),
         user_id$,
+        user$,
         roles$,
       ])
         .map (([
           item,
           user_id,
+          user,
           roles,
         ]) => (
           <div id='' className=''>
@@ -72,8 +79,10 @@ export default options => isolate (sources => {
               {item.title}
             </div>
             <div className={'text_data text_hover'}>
-              {`Published by ${item.user_id} on ${time_string (item.published)}`}
+              {`Published by ${user.name} on ${time_string (item.published)}`}
+              <br />
               {item.updated && `Last updated on ${time_string (item.updated)}`}
+              <br />
               {`Tags: ${item.tags}`}
             </div>
             <br />
@@ -93,12 +102,13 @@ export default options => isolate (sources => {
           ? (
             A.map (i =>
               DOM.select (`#set_featured_${i}`).events ('click').mapTo (i)
-                .compose(sampleCombine(item_id$))
+                .compose (sampleCombine (item_id$))
                 .map (([id, item_id]) => http_requests.post_featured () ({id, post_id: item_id}))
             ) (A.range (0) (2))
           )
           : []
-        )
+        ),
+        item$.map (x => http_requests.get_user ({id: x.user_id}) ()),
       ])
     ),
     editing$: (

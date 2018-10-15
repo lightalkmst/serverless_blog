@@ -31,12 +31,7 @@ const months = [
 ]
 window.time_string = timestamp => {
   const date = new Date (timestamp)
-  const day = date.getDate ()
-  const month = date.getMonth () // reminder: 0-indexed
-  const year = date.getFullYear ()
-  const hour = date.getHours ()
-  const minute = date.getMinutes ()
-  return `${months[month]} ${day}, ${year} ${hour}:${minute}`
+  return `${date.toLocaleDateString ()} ${date.toLocaleTimeString ()}`
 }
 
 document.cookie = 'session=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'

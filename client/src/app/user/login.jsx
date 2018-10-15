@@ -6,7 +6,16 @@ import init from '../../init'
 import http_requests from '../common/http_requests'
 
 export default sources => {
-  const {DOM, HTTP} = sources
+  const {
+    DOM,
+    HTTP,
+    navigation$,
+  } = sources
+
+  const failure$ =
+    HTTP.select ('get_user').flatten ()
+      .map (HTTP_resp)
+      .filter (F.neg (F.id))
 
   return {
     DOM: (

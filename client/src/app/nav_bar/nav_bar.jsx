@@ -14,7 +14,7 @@ export default sources => {
         'newest',
         'archive',
         'about',
-        'account'
+        'account',
       ]),
       DOM.select ('#logo_tab').events ('click').mapTo ('home'),
     ])

@@ -58,7 +58,7 @@ export default sources => {
           post_dom$,
         ])
           .map (posts_dom => (
-            <div id='newest' className='padded'>
+            <div id='newest'>
               <h1 className='text_title text_hover'>Newest Posts</h1>
               <br />
               {posts_dom}
